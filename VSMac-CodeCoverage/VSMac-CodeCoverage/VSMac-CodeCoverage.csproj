@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\altcover.api.4.0.649\build\netstandard2.0\altcover.api.props" Condition="Exists('..\packages\altcover.api.4.0.649\build\netstandard2.0\altcover.api.props')" />
+  <Import Project="..\packages\altcover.api.4.0.618\build\netstandard2.0\altcover.api.props" Condition="Exists('..\packages\altcover.api.4.0.618\build\netstandard2.0\altcover.api.props')" />
+  <Import Project="..\packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.props" Condition="Exists('..\packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF0EBF99-9274-40F2-A1B4-FE53EBC0E436}</ProjectGuid>
+    <ProjectTypeGuids>{86F6BF2A-E449-4B3E-813B-9ACC37E5545F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CodeCoverage</RootNamespace>
+    <AssemblyName>VSMac-CodeCoverage</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AddinInfo.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="Coverage\CodeCoverageException.cs" />
+    <Compile Include="Coverage\CoverageConsoleWindow.cs" />
+    <Compile Include="Coverage\CoveragePad.cs" />
+    <Compile Include="Coverage\CoveragePadPresenter.cs" />
+    <Compile Include="Coverage\CoveragePadWidget.cs" />
+    <Compile Include="Coverage\CoverageResults.cs" />
+    <Compile Include="Coverage\CoverageService.cs" />
+    <Compile Include="Coverage\CoverageTextEditorExtension.cs" />
+    <Compile Include="Coverage\LoggedCoverageService.cs" />
+    <Compile Include="Coverage\TestCommandDialog.cs" />
+    <Compile Include="Coverage\TestCommandDialogPresenter.cs" />
+    <Compile Include="Coverage\TestProjectService.cs" />
+    <Compile Include="gtk-gui\CodeCoverage.Coverage.CoveragePadWidget.cs" />
+    <Compile Include="gtk-gui\CodeCoverage.Coverage.TestCommandDialog.cs" />
+    <Compile Include="gtk-gui\CodeCoverage.Coverage.CoverageConsoleWindow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Manifest.addin.xml" />
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Coverage\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\packages\Mono.Cecil.0.10.0\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="AltCover.Cake">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\AltCover.Cake.dll</HintPath>
+    </Reference>
+    <Reference Include="AltCover.CSApi">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\AltCover.CSApi.dll</HintPath>
+    </Reference>
+    <Reference Include="AltCover">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\AltCover.exe</HintPath>
+    </Reference>
+    <Reference Include="AltCover.Fake">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\AltCover.Fake.dll</HintPath>
+    </Reference>
+    <Reference Include="AltCover.FSApi">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\AltCover.FSApi.dll</HintPath>
+    </Reference>
+    <Reference Include="AltCover.PowerShell">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\AltCover.PowerShell.dll</HintPath>
+    </Reference>
+    <Reference Include="AltCover.Recorder">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\AltCover.Recorder.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Options">
+      <HintPath>..\packages\altcover.api.4.0.649\lib\net45\Mono.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <HintPath>..\packages\FSharp.Core.4.5.2\lib\net45\FSharp.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddinReference Include="MonoDevelop.UnitTesting" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.targets" Condition="Exists('..\packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.targets')" />
+  <Import Project="..\packages\altcover.api.4.0.618\build\netstandard2.0\altcover.api.targets" Condition="Exists('..\packages\altcover.api.4.0.618\build\netstandard2.0\altcover.api.targets')" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy RemoveTrailingWhitespace="True" NoTabsAfterNonTabs="False" EolMarker="Native" FileWidth="80" TabWidth="2" TabsToSpaces="True" IndentWidth="2" scope="text/plain" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <Import Project="..\packages\altcover.api.4.0.649\build\netstandard2.0\altcover.api.targets" Condition="Exists('..\packages\altcover.api.4.0.649\build\netstandard2.0\altcover.api.targets')" />
+</Project>
