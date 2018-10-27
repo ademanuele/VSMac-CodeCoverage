@@ -35,7 +35,7 @@ The `{ProjectOutputFile}` placeholder is substituted by your unit testing projec
 
 - Filter irrelevant assemblies from Coverage
 - Refresh test projects and results when changing solutions
-- - Store a different test command per project/solution
+- Store a different test command per project/solution
 - Gather coverage keyboard shortcut
 - Make line marker background and text colors configurable
 - Add coverage graphs
