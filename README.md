@@ -25,7 +25,7 @@ This extension uses **Steve Gilham**'s [altcover](https://github.com/SteveGilham
 
 ## License
 
-This project is licensed under the MIT License - [full details](LICENSE.md).
+This project is licensed under the MIT License - [full details](LICENSE).
 
 See also [altcover's licence](https://github.com/SteveGilham/altcover/blob/master/LICENSE).
 
