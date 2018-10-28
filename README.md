@@ -22,11 +22,11 @@ In order access the code coverage pad, navigate to `View -> Pads -> Coverage`.
 
 The coverage extension runs your unit tests while gathering coverage, which it does by using the unit testing command. This should be set to whatever is used for running the tests on the command line.
 
-_Note: if the terminal command is usually prepended with the `mono` command, this should be omitted`_
+_Note: if the terminal command is usually prepended with the `mono` command, this should also be included. Very strange behaviour has been observed when it is not.`_
 
 **Example Command:**
 ```
-/path/to/NUnit.ConsoleRunner.x.x.x/tools/nunit3-console.exe {ProjectOutputFile}
+/path/to/NUnit.ConsoleRunner.x.x.x/tools/nunit3-console.exe --noresult {ProjectOutputFile}
 ```
 
 The `{ProjectOutputFile}` placeholder is substituted by your unit testing project's `.dll` when running the tests.
@@ -34,8 +34,9 @@ The `{ProjectOutputFile}` placeholder is substituted by your unit testing projec
 ## Planned TODOs
 
 - Filter irrelevant assemblies from Coverage
-- Refresh test projects and results when changing solutions
-- Store a different test command per project/solution
+- Refresh test projects dropdown and results when changing solutions
+- Remove the need for a test command
+	- Or at least, store a different test command per project/solution
 - Gather coverage keyboard shortcut
 - Make line marker background and text colors configurable
 - Add coverage graphs
