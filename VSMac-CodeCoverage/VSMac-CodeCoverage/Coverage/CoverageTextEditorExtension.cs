@@ -97,7 +97,7 @@ namespace CodeCoverage.Coverage
 
     public static void RefreshActiveDocument()
     {
-      IdeApp.Workbench.ActiveDocument?.UpdateParseDocument();
+      //IdeApp.Workbench.ActiveDocument?.UpdateParseDocument();
     }
   }
 

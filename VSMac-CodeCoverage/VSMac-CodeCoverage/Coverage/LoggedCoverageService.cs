@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AltCover;
 using MonoDevelop.Projects;
 
 namespace CodeCoverage.Coverage
@@ -45,39 +44,10 @@ namespace CodeCoverage.Coverage
       return base.RebuildTestProject(testProject);
     }
 
-    protected override PrepareArgs PrepareProjectForCoverage(Project testProject, ConfigurationSelector configuration)
-    {
-      try
-      {
-        progress.Report(new Log("Preparing project for coverage...", LogLevel.Info));
-        return base.PrepareProjectForCoverage(testProject, configuration);
-      }
-      catch (Exception e)
-      {
-        progress.Report(new Log(e.Message, LogLevel.Error));
-        throw e;
-      }
-    }
-
     protected override Task RunTests(Project testProject, ConfigurationSelector configuration)
     {
       progress.Report(new Log("Running unit tests...", LogLevel.Info));
       return base.RunTests(testProject, configuration);
-    }
-
-    protected override void CollectCoverageData(Project testProject, PrepareArgs prepareParams)
-    {
-      try
-      {
-        progress.Report(new Log("Collecting coverage data...", LogLevel.Info));
-        base.CollectCoverageData(testProject, prepareParams);
-        FinishedGatheringCoveage();
-      }
-      catch (Exception e)
-      {
-        progress.Report(new Log(e.Message, LogLevel.Error));
-        throw e;
-      }
     }
 
     void FinishedGatheringCoveage()
