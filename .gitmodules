@@ -1,0 +1,3 @@
+[submodule "coverlet"]
+	path = coverlet
+	url = https://github.com/tonerdo/coverlet.git
