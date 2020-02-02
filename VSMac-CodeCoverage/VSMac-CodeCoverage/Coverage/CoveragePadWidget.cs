@@ -26,18 +26,19 @@ namespace CodeCoverage.Coverage
       }
     }
 
-    CoveragePadPresenter presenter;
+    readonly CoveragePadPresenter presenter;
+    readonly ILoggingService log;
 
     CoverageConsoleWindow consoleWindow;
-    TestCommandDialog testCommandDialog;
 
-    IReadOnlyDictionary<string, Coverage> coverageResults;
+    IReadOnlyDictionary<string, CoverageSummary> coverageResults;
     int presentedResultIndex;
 
     public CoveragePadWidget()
     {
       Build();
-      presenter = new CoveragePadPresenter(this);
+      log = new LoggingService();
+      presenter = new CoveragePadPresenter(this, log);
       SetupCoverageLabels();
       testProjectDropdown.Changed += OnTestProjectSelectionChanged;
 
@@ -59,6 +60,7 @@ namespace CodeCoverage.Coverage
     {
       base.Dispose();
       presenter.Dispose();
+      consoleWindow.Dispose();
     }
 
     public void SetTestProjects(IEnumerable<Project> testProjects)
@@ -93,7 +95,7 @@ namespace CodeCoverage.Coverage
       }
     }
 
-    public void SetCoverageResults(IReadOnlyDictionary<string, Coverage> results)
+    public void SetCoverageResults(IReadOnlyDictionary<string, CoverageSummary> results)
     {
       coverageResults = results;
       PresentCoverageAtIndex(0);
@@ -144,32 +146,15 @@ namespace CodeCoverage.Coverage
       coveredProjectPreviouButton.Sensitive = true;
     }
 
-    public void PresentTestCommandDialog()
-    {
-      if (testCommandDialog != null)
-      {
-        testCommandDialog.GrabFocus();
-        return;
-      }
-
-      using (testCommandDialog = new TestCommandDialog())
-      {
-        testCommandDialog.Run();
-        testCommandDialog = null;
-      }
-    }
-
     public void DisableUI()
     {
       testProjectDropdown.Sensitive = false;
-      preferencesButton.Sensitive = false;
       gatherCoverageButton.Sensitive = false;
     }
 
     public void EnableUI()
     {
       testProjectDropdown.Sensitive = true;
-      preferencesButton.Sensitive = true;
       gatherCoverageButton.Sensitive = true;
     }
 
@@ -177,7 +162,7 @@ namespace CodeCoverage.Coverage
     {
       if (consoleWindow == null)
       {
-        consoleWindow = new CoverageConsoleWindow();
+        consoleWindow = new CoverageConsoleWindow(log);
         consoleWindow.Destroyed += HandleConsoleWindowDestroyed;
       }
 
@@ -189,12 +174,9 @@ namespace CodeCoverage.Coverage
       consoleWindow.Destroyed -= HandleConsoleWindowDestroyed;
       consoleWindow = null;
     }
-
-    protected void OnShowPreferencesClicked(object sender, EventArgs e)
-      => PresentTestCommandDialog();
   }
 
-  public class TestProjectDropdownStore : ListStore
+  class TestProjectDropdownStore : ListStore
   {
     public IReadOnlyDictionary<Project, TreeIter> ProjectToIter => projectToIter;
     public IReadOnlyDictionary<TreeIter, Project> IterToProject => iterToProject;

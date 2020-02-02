@@ -25,6 +25,7 @@ namespace CodeCoverage.Coverage
 			this.hbox1 = new global::Gtk.HBox();
 			this.hbox1.Name = "hbox1";
 			this.hbox1.Spacing = 6;
+			this.hbox1.BorderWidth = ((uint)(5));
 			// Container child hbox1.Gtk.Box+BoxChild
 			this.GtkScrolledWindow = new global::Gtk.ScrolledWindow();
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
@@ -36,6 +37,7 @@ namespace CodeCoverage.Coverage
 			this.consoleTextView.Editable = false;
 			this.consoleTextView.CursorVisible = false;
 			this.consoleTextView.WrapMode = ((global::Gtk.WrapMode)(1));
+			this.consoleTextView.Indent = 10;
 			this.GtkScrolledWindow.Add(this.consoleTextView);
 			this.hbox1.Add(this.GtkScrolledWindow);
 			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.GtkScrolledWindow]));

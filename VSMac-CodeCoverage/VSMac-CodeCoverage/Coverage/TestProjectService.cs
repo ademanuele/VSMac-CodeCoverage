@@ -6,19 +6,14 @@ using MonoDevelop.UnitTesting;
 
 namespace CodeCoverage.Coverage
 {
-  public class TestProjectService : IDisposable
+  class TestProjectService : IDisposable
   {
-    public static TestProjectService Instance => instance ?? (instance = new TestProjectService());
-    static TestProjectService instance;
+    public IEnumerable<Project> TestProjects { get; private set; }
 
-    public IReadOnlyCollection<Project> TestProjects => testProjects;
+    public event TestProjectChangedDelegate TestProjectsChanged;
+    public delegate void TestProjectChangedDelegate();
 
-    public delegate void TestProjectsChangedDelegate();
-    public event TestProjectsChangedDelegate TestProjectsChanged;
-
-    IReadOnlyCollection<Project> testProjects;
-
-    TestProjectService()
+    public TestProjectService()
     {
       RefreshTestProjectList();
       UnitTestService.TestSuiteChanged += OnTestSuiteChanged;
@@ -27,7 +22,6 @@ namespace CodeCoverage.Coverage
     public void Dispose()
     {
       UnitTestService.TestSuiteChanged -= OnTestSuiteChanged;
-      instance = null;
     }
 
     void OnTestSuiteChanged(object sender, EventArgs e)
@@ -41,7 +35,7 @@ namespace CodeCoverage.Coverage
         if (UnitTestService.FindRootTest(project) == null) continue;
         projects.Add(project);
       }
-      testProjects = projects;
+      TestProjects = projects;
       TestProjectsChanged?.Invoke();
     }
   }

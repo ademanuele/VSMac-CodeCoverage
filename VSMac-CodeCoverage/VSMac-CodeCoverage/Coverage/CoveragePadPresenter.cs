@@ -14,35 +14,39 @@ namespace CodeCoverage.Coverage
     void DisableUI();
     void EnableUI();
     void SetStatusMessage(string message, LogLevel level);
-    void PresentTestCommandDialog();
     void ClearCoverageResults();
-    void SetCoverageResults(IReadOnlyDictionary<string, Coverage> results);
+    void SetCoverageResults(IReadOnlyDictionary<string, CoverageSummary> results);
   }
 
-  public class CoveragePadPresenter : IDisposable
+  class CoveragePadPresenter : IDisposable
   {
     readonly ICoveragePad pad;
+    readonly ILoggingService log;
+    readonly TestProjectService testProjectService;
+    readonly ICoverageResultsRepository resultsRepository;
+    readonly LoggedCoverageService coverageService;
 
-    public CoveragePadPresenter(ICoveragePad pad)
+    public CoveragePadPresenter(ICoveragePad pad, ILoggingService log)
     {
       this.pad = pad;
+      this.log = log;
+      testProjectService = new TestProjectService();
+      testProjectService.TestProjectsChanged += RefreshTestProjects;
+      resultsRepository = new CoverageResultsRepository(new CoverletResultsParser());
+      coverageService = new LoggedCoverageService(new CoverletCoverageProvider(log), resultsRepository);
     }
 
-    public void OnShown()
-    {
-      TestProjectService.Instance.TestProjectsChanged += RefreshTestProjects;
-      RefreshTestProjects();
-    }
+    public void OnShown() => RefreshTestProjects();
 
     public void Dispose()
     {
-      TestProjectService.Instance.TestProjectsChanged -= RefreshTestProjects;
-      TestProjectService.Instance.Dispose();
+      testProjectService.TestProjectsChanged -= RefreshTestProjects;
+      testProjectService.Dispose();
     }
 
     void RefreshTestProjects()
     {
-      var testProjects = TestProjectService.Instance.TestProjects;
+      var testProjects = testProjectService.TestProjects;
       pad.ClearCoverageResults();
       pad.SetTestProjects(testProjects);
       SelectFirstProject();
@@ -57,30 +61,31 @@ namespace CodeCoverage.Coverage
 
     public void TestProjectSelectionChanged()
     {
-      var results = new CoverageResults(pad.SelectedTestProject, IdeApp.Workspace.ActiveConfiguration);
-      if (!results.Valid)
+      var project = pad.SelectedTestProject;
+      var configuration = IdeApp.Workspace.ActiveConfiguration;
+      try
+      {
+        var results = resultsRepository.ResultsFor(project, configuration);
+        pad.SetCoverageResults(results.ModuleCoverage);
+      }
+      catch (Exception)
       {
         pad.ClearCoverageResults();
-        return;
+        log.Warn($"Failed to load results for project {project.Name}.");
       }
-      pad.SetCoverageResults(results.AllModulesCoverage());
     }
 
     public async Task GatherCoverageAsync()
     {
       if (pad.SelectedTestProject == null) return;
 
-      if (TestCommandSetting.Current() == null)
-      {
-        pad.PresentTestCommandDialog();
-        return;
-      }
+      pad.DisableUI();
+      pad.ClearCoverageResults();
 
       try
       {
-        pad.DisableUI();
         var progress = new Progress<Log>(l => pad.SetStatusMessage(l.Message, l.Level));
-        await GatherCoverageForProjectAsync(pad.SelectedTestProject, progress);
+        await coverageService.CollectCoverageForTestProject(pad.SelectedTestProject, progress);
       }
       catch (Exception e)
       {
@@ -88,21 +93,15 @@ namespace CodeCoverage.Coverage
       }
       finally
       {
+        TestProjectSelectionChanged();
         pad.EnableUI();
       }
     }
 
-    async Task GatherCoverageForProjectAsync(Project project, Progress<Log> progress)
-    {
-      await CoverageService.Instance.CollectCoverageForTestProject(project, progress);
-      TestProjectSelectionChanged();
-      CoverageTextEditorExtension.RefreshActiveDocument();
-    }
-
     void LogException(Exception e)
     {
-      LoggingService.Error(e.ToString());
-      pad.SetStatusMessage(e.Message, LogLevel.Error);
+      log.Error(e.ToString());
+      pad.SetStatusMessage("Failed to gather coverage. See log for details.", LogLevel.Error);
     }
   }
 }

@@ -1,74 +1,58 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
+using MonoDevelop.Core.Execution;
 using MonoDevelop.Ide;
 using MonoDevelop.Projects;
+using MonoDevelop.UnitTesting;
 
 namespace CodeCoverage.Coverage
 {
   public interface ICoverageService
   {
-    DateTime LastCoverageCollection { get; }
     Task CollectCoverageForTestProject(Project testProject);
   }
 
-  public class CoverageService
+  interface ICoverageProvider
   {
-    public static ILoggedCoverageService Instance => instance ?? (instance = new LoggedCoverageService());
-    static ILoggedCoverageService instance;
+    void Prepare(Project testProject, ConfigurationSelector configuration);
+    ICoverageResults GetCoverage(Project testProject, ConfigurationSelector configuration);
+  }
 
+  class CoverageService
+  {
     public DateTime LastCoverageCollection { get; private set; }
+    readonly ICoverageProvider provider;
+    protected readonly ICoverageResultsRepository repository;
+
+    public CoverageService(ICoverageProvider provider, ICoverageResultsRepository repository)
+    {
+      this.provider = provider;
+      this.repository = repository;
+    }
 
     public async Task CollectCoverageForTestProject(Project testProject)
     {
-      var activeConfigruation = IdeApp.Workspace.ActiveConfiguration;
-      await RebuildTestProject(testProject);      
-      await RunTests(testProject, activeConfigruation);
-      LastCoverageCollection = DateTime.Now;
-    }
-
-    protected virtual Task RebuildTestProject(Project testProject)
-    {
-      return IdeApp.ProjectOperations.Rebuild(testProject).Task;
-    }
-
-    public static string CoverageOutputPathForProject(Project project, ConfigurationSelector configuration)
-    {
-      var projectOutputDirectory = project.GetOutputFileName(configuration).ParentDirectory;
-      return projectOutputDirectory.Combine(".coverage");
-    }
-
-    public static string CoverageFilePathForProject(Project project, ConfigurationSelector configuration)
-    {
-      return Path.Combine(CoverageOutputPathForProject(project, configuration), "coverage.xml");
-    }
-
-    protected virtual Task RunTests(Project testProject, ConfigurationSelector configuration)
-    {
-      return Task.Run(() =>
+      var configuration = IdeApp.Workspace.ActiveConfiguration;
+      provider.Prepare(testProject, configuration);      
+      await RunTests(testProject).ContinueWith(t =>
       {
-        string command = TestCommandSetting.ForProject(testProject, configuration);
-        int argumentsStartIndex = command.IndexOf(' ');
-        string pathToExecutable = command.Substring(0, argumentsStartIndex);
-        string arguments = command.Substring(argumentsStartIndex);
-
-        using (Process p = new Process())
-        {
-          p.StartInfo.UseShellExecute = false;
-          p.StartInfo.RedirectStandardOutput = true;
-          p.StartInfo.RedirectStandardError = true;
-          p.StartInfo.FileName = pathToExecutable;
-          p.StartInfo.Arguments = arguments;
-
-          LoggingService.Info($"Running Tests Using Command:\n{command}");
-          var success = p.Start();
-          p.WaitForExit();
-
-          LoggingService.Info($"Testing Output:\n\n{p.StandardOutput.ReadToEnd()}");
-          LoggingService.Info($"Testing Error:\n\n{p.StandardError.ReadToEnd()}");
-        }
+        var results = provider.GetCoverage(testProject, configuration);
+        SaveResults(results, testProject, configuration);
       });
+    }
+
+    protected virtual void SaveResults(ICoverageResults results, Project testProject, ConfigurationSelector configuration)
+    {
+      repository.SaveResults(results, testProject, configuration);
+    }
+
+    protected virtual async Task RunTests(Project testProject)
+    {
+      IExecutionHandler mode = null;      
+      ExecutionContext context = new ExecutionContext(mode, IdeApp.Workbench.ProgressMonitors.ConsoleFactory, null);      
+      var firstRootTest = UnitTestService.FindRootTest(testProject);
+      if (firstRootTest == null || !firstRootTest.CanRun(mode)) return;
+      await UnitTestService.RunTest(firstRootTest, context, true).Task;
     }
   }
 }

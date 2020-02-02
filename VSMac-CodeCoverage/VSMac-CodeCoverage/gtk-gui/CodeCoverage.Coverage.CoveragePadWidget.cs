@@ -46,8 +46,6 @@ namespace CodeCoverage.Coverage
 
 		private global::Gtk.Button button4;
 
-		private global::Gtk.Button preferencesButton;
-
 		protected virtual void Build()
 		{
 			global::Stetic.Gui.Initialize(this);
@@ -220,24 +218,11 @@ namespace CodeCoverage.Coverage
 			w20.Position = 1;
 			w20.Expand = false;
 			w20.Fill = false;
-			// Container child hbox3.Gtk.Box+BoxChild
-			this.preferencesButton = new global::Gtk.Button();
-			this.preferencesButton.CanFocus = true;
-			this.preferencesButton.Name = "preferencesButton";
-			this.preferencesButton.UseUnderline = true;
-			global::Gtk.Image w21 = new global::Gtk.Image();
-			w21.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-preferences", global::Gtk.IconSize.Menu);
-			this.preferencesButton.Image = w21;
-			this.hbox3.Add(this.preferencesButton);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hbox3[this.preferencesButton]));
-			w22.Position = 2;
-			w22.Expand = false;
-			w22.Fill = false;
 			this.vbox3.Add(this.hbox3);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox3]));
-			w23.Position = 2;
-			w23.Expand = false;
-			w23.Fill = false;
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox3]));
+			w21.Position = 2;
+			w21.Expand = false;
+			w21.Fill = false;
 			this.Add(this.vbox3);
 			if ((this.Child != null))
 			{
@@ -248,7 +233,6 @@ namespace CodeCoverage.Coverage
 			this.coveredProjectPreviouButton.Clicked += new global::System.EventHandler(this.OnPreviousCoverageResultClicked);
 			this.coveredProjectNextButton.Clicked += new global::System.EventHandler(this.OnNextCoverageResultClicked);
 			this.button4.Clicked += new global::System.EventHandler(this.OnShowConsoleClicked);
-			this.preferencesButton.Clicked += new global::System.EventHandler(this.OnShowPreferencesClicked);
 		}
 	}
 }

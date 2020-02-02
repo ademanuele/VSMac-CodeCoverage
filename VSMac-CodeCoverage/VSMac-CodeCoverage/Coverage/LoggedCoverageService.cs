@@ -28,9 +28,11 @@ namespace CodeCoverage.Coverage
     Error
   }
 
-  public class LoggedCoverageService : CoverageService, ILoggedCoverageService
+  class LoggedCoverageService : CoverageService, ILoggedCoverageService
   {
     IProgress<Log> progress;
+
+    public LoggedCoverageService(ICoverageProvider provider, ICoverageResultsRepository repository) : base(provider, repository) { }
 
     public Task CollectCoverageForTestProject(Project testProject, IProgress<Log> progress)
     {
@@ -38,16 +40,17 @@ namespace CodeCoverage.Coverage
       return CollectCoverageForTestProject(testProject);
     }
 
-    protected override Task RebuildTestProject(Project testProject)
-    {
-      progress.Report(new Log("Building test project...", LogLevel.Info));
-      return base.RebuildTestProject(testProject);
-    }
-
-    protected override Task RunTests(Project testProject, ConfigurationSelector configuration)
+    protected override Task RunTests(Project testProject)
     {
       progress.Report(new Log("Running unit tests...", LogLevel.Info));
-      return base.RunTests(testProject, configuration);
+      return base.RunTests(testProject);
+    }
+
+    protected override void SaveResults(ICoverageResults results, Project testProject, ConfigurationSelector configuration)
+    {
+      progress.Report(new Log("Saving coverage results...", LogLevel.Info));
+      base.SaveResults(results, testProject, configuration);
+      FinishedGatheringCoveage();
     }
 
     void FinishedGatheringCoveage()
