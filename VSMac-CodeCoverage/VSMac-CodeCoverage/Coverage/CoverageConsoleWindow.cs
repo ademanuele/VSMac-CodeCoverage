@@ -17,7 +17,7 @@ namespace CodeCoverage.Coverage
     {
       base.OnShown();
       consoleTextView.Buffer.Text = loggingService.Log;
-      consoleTextView.ModifyFont(FontDescription.FromString("Courier 30"));
+      consoleTextView.ModifyFont(FontDescription.FromString("Courier 12"));
       loggingService.Logged += LoggingService_Logged;
       loggingService.Cleared += LoggingService_Cleared;
     }

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<Addin id="com.arthurdemanuele.codecoverage">
+<Addin
+  id="com.arthurdemanuele.codecoverage">
   <Header>
     <Name>Code Coverage</Name>
     <Description>A code coverage extension for Visual Studio for Mac.
@@ -10,10 +11,17 @@ by Arthur Demanuele</Description>
     <Url>https://github.com/ademanuele/VSMac-CodeCoverage</Url>
     <UpdateRank>Normal</UpdateRank>
   </Header>
-  <Extension path="/MonoDevelop/Ide/Pads">
-    <Pad id="com.arthurdemanuele.codecoverage.Coverage.CoveragePad" _label="Coverage" class="CodeCoverage.Coverage.CoveragePad" defaultPlacement="right" />
+  <Extension
+    path="/MonoDevelop/Ide/Pads">
+    <Pad
+      id="com.arthurdemanuele.codecoverage.Coverage.CoveragePad"
+      _label="Coverage"
+      class="CodeCoverage.Coverage.CoveragePad"
+      defaultPlacement="right" />
   </Extension>
-  <Extension path="/MonoDevelop/Ide/TextEditorExtensions">
-    <Class fileExtensions=".cs" class="CodeCoverage.Coverage.CoverageTextEditorExtension" />
+  <Extension
+    path="/MonoDevelop/Ide/Composition">
+    <Assembly
+      file="VSMac-CodeCoverage.dll" />
   </Extension>
 </Addin>

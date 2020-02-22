@@ -46,10 +46,10 @@
     <Compile Include="Coverlet\CoverletCoverageProvider.cs" />
     <Compile Include="Coverlet\CoverletCoverageResults.cs" />
     <Compile Include="Coverlet\LoggingServiceCoverletLogger.cs" />
-    <Compile Include="EditorExtension\CoverageTextEditorExtension.cs" />
     <Compile Include="Coverlet\CoverletResultsParser.cs" />
     <Compile Include="Coverage\CoverageResultsRepository.cs" />
-    <Compile Include="EditorExtension\Margin.cs" />
+    <Compile Include="EditorExtension\CodeCoverageMargin.cs" />
+    <Compile Include="EditorExtension\CodeCoverageMarginProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.UnitTesting" />
+    <AddinReference Include="MonoDevelop.TextEditor.Cocoa" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

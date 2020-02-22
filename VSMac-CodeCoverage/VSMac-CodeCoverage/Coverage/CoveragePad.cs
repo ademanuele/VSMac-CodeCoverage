@@ -1,6 +1,5 @@
 ﻿using MonoDevelop.Components;
 using MonoDevelop.Ide.Gui;
-using MonoDevelop.Projects;
 
 namespace CodeCoverage.Coverage
 {
@@ -9,9 +8,8 @@ namespace CodeCoverage.Coverage
     public override string Id => "CodeCoverage.Coverage.CoveragePad";
 
     public override Control Control => padWidget;
-    public Project SelectedTestProject => padWidget?.SelectedTestProject;
 
-    CoveragePadWidget padWidget;
+    private CoveragePadWidget padWidget;
 
     protected override void Initialize(IPadWindow window)
     {

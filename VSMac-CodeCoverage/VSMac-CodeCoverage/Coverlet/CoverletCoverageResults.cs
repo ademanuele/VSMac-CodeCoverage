@@ -33,6 +33,25 @@ namespace CodeCoverage.Coverage
       }
     }
 
+    public Dictionary<int, int> CoverageForFile(string path)
+    {
+      Dictionary<int, int> fileCoverage = new Dictionary<int, int>();
+
+      foreach (var module in result.Modules)
+        foreach (var document in module.Value)
+          if (document.Key == path)
+            foreach (var c in document.Value)
+              foreach (var method in c.Value)
+                foreach (var line in method.Value.Lines)
+                {
+                  if (!fileCoverage.ContainsKey(line.Key))
+                    fileCoverage[line.Key] = 0;
+                  fileCoverage[line.Key] += line.Value;
+                }
+
+      return fileCoverage;
+    }
+
     public void SaveTo(Stream stream)
     {
       using (StreamWriter writer = new StreamWriter(stream))

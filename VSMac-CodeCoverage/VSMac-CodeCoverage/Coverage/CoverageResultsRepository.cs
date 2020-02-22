@@ -19,10 +19,12 @@ namespace CodeCoverage.Coverage
 
   class CoverageResultsRepository : ICoverageResultsRepository
   {
+    public static ICoverageResultsRepository Instance { get; } = new CoverageResultsRepository(new CoverletResultsParser());
+
     readonly ICoverageResultsParser parser;
     readonly Dictionary<Tuple<Project, ConfigurationSelector>, ICoverageResults> cache;
 
-    public CoverageResultsRepository(ICoverageResultsParser parser)
+    private CoverageResultsRepository(ICoverageResultsParser parser)
     {
       this.parser = parser;
       cache = new Dictionary<Tuple<Project, ConfigurationSelector>, ICoverageResults>();
@@ -33,8 +35,9 @@ namespace CodeCoverage.Coverage
       if (cache.TryGetValue(new Tuple<Project, ConfigurationSelector>(testProject, configuration), out var result))
         return result;
 
-      string resultsFile = CoverageFilePathForProject(testProject, configuration);
-      using (var stream = new FileStream(resultsFile, FileMode.Open))
+      string resultsFilePath = CoverageFilePathForProject(testProject, configuration);
+      if (!File.Exists(resultsFilePath)) return null;
+      using (var stream = new FileStream(resultsFilePath, FileMode.Open))
         return parser.ParseFrom(stream);
     }
 

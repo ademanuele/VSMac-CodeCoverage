@@ -23,8 +23,10 @@ namespace CodeCoverage.Coverage
       {
         var iter = (testProjectDropdown.Model as TestProjectDropdownStore).ProjectToIter[value];
         testProjectDropdown.SetActiveIter(iter);
+        SelectedTestProjectChanged?.Invoke(this, value);
       }
     }
+    public event EventHandler<Project> SelectedTestProjectChanged;
 
     readonly CoveragePadPresenter presenter;
     readonly ILoggingService log;
@@ -67,7 +69,10 @@ namespace CodeCoverage.Coverage
       => testProjectDropdown.Model = new TestProjectDropdownStore(testProjects);
 
     void OnTestProjectSelectionChanged(object sender, EventArgs e)
-      => presenter.TestProjectSelectionChanged();
+    {
+      presenter.TestProjectSelectionChanged();
+      SelectedTestProjectChanged?.Invoke(this, SelectedTestProject);
+    }
 
     async void OnGatherCoverageClicked(object sender, EventArgs e)
       => await presenter.GatherCoverageAsync();
@@ -103,7 +108,11 @@ namespace CodeCoverage.Coverage
 
     void PresentCoverageAtIndex(int index)
     {
-      if (coverageResults == null || coverageResults.Count - 1 < index) return;
+      if (coverageResults == null || coverageResults.Count - 1 < index)
+      {
+        ClearCoverageResults();
+        return;
+      }
 
       var coverage = coverageResults.ElementAt(index);
       coveredProjectLabel.Text = coverage.Key;

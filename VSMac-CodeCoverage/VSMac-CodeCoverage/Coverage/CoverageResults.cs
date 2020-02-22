@@ -6,6 +6,7 @@ namespace CodeCoverage.Coverage
   interface ICoverageResults
   {
     Dictionary<string, CoverageSummary> ModuleCoverage { get; }
+    Dictionary<int, int> CoverageForFile(string path);
     void SaveTo(Stream stream);
   }
 

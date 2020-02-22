@@ -32,7 +32,7 @@ namespace CodeCoverage.Coverage
       this.log = log;
       testProjectService = new TestProjectService();
       testProjectService.TestProjectsChanged += RefreshTestProjects;
-      resultsRepository = new CoverageResultsRepository(new CoverletResultsParser());
+      resultsRepository = CoverageResultsRepository.Instance;
       coverageService = new LoggedCoverageService(new CoverletCoverageProvider(log), resultsRepository);
     }
 
@@ -66,6 +66,11 @@ namespace CodeCoverage.Coverage
       try
       {
         var results = resultsRepository.ResultsFor(project, configuration);
+        if (results == null)
+        {
+          pad.ClearCoverageResults();
+          return;
+        }
         pad.SetCoverageResults(results.ModuleCoverage);
       }
       catch (Exception)
