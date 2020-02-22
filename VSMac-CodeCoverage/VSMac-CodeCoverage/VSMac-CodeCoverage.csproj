@@ -50,6 +50,7 @@
     <Compile Include="Coverage\CoverageResultsRepository.cs" />
     <Compile Include="EditorExtension\CodeCoverageMargin.cs" />
     <Compile Include="EditorExtension\CodeCoverageMarginProvider.cs" />
+    <Compile Include="EditorExtension\CodeCoverageMarginView.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
