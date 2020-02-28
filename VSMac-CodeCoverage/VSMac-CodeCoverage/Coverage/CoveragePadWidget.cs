@@ -26,7 +26,10 @@ namespace CodeCoverage.Coverage
         SelectedTestProjectChanged?.Invoke(this, value);
       }
     }
+
     public event EventHandler<Project> SelectedTestProjectChanged;
+    public event EventHandler CoverageResultsUpdated;
+    public event EventHandler CoverageResultsCleared;
 
     readonly CoveragePadPresenter presenter;
     readonly ILoggingService log;
@@ -104,6 +107,7 @@ namespace CodeCoverage.Coverage
     {
       coverageResults = results;
       PresentCoverageAtIndex(0);
+      CoverageResultsUpdated?.Invoke(this, new EventArgs());
     }
 
     void PresentCoverageAtIndex(int index)
@@ -141,6 +145,7 @@ namespace CodeCoverage.Coverage
       lineCoverageLabel.Text = "--";
       branchCoverageLabel.Text = "--";
       DisableCoverageResultsUI();
+      CoverageResultsCleared?.Invoke(this, new EventArgs());
     }
 
     void DisableCoverageResultsUI()

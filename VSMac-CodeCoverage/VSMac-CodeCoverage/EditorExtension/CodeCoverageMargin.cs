@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using MonoDevelop.Ide;
 using MonoDevelop.Projects;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -33,14 +34,21 @@ namespace CodeCoverage
       marginView = new CodeCoverageMarginView(textView, MarginSize);
       this.textView.LayoutChanged += OnTextViewLayoutChanged;
       CoveragePadWidget.SelectedTestProjectChanged += HandleSelectedTestProjectChanged;
+      CoveragePadWidget.CoverageResultsUpdated += HandleCoverageResultsUpdated;
+      CoveragePadWidget.CoverageResultsCleared += HandleCoverageResultsCleared;
       UpdateCoverage();
     }
 
+    private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e) => marginView.NeedsDisplay = true;
+
     private void HandleSelectedTestProjectChanged(object sender, Project e) => UpdateCoverage();
+
+    private void HandleCoverageResultsUpdated(object sender, EventArgs e) => UpdateCoverage();
+
+    private void HandleCoverageResultsCleared(object sender, EventArgs e) => marginView.Coverage = null;
 
     void UpdateCoverage()
     {
-      Debug.WriteLine("Updating Coverage for Margin...");
       if (!TryGetCoverageFor(textView, out var results)) return;
       marginView.Coverage = results;
     }
@@ -69,14 +77,14 @@ namespace CodeCoverage
       return document.FilePath;
     }
 
-    private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e) => marginView.NeedsDisplay = true;
-
     public ITextViewMargin GetTextViewMargin(string marginName) => marginName == nameof(CodeCoverageMargin) ? this : null;
 
     public void Dispose()
     {
       textView.LayoutChanged -= OnTextViewLayoutChanged;
       CoveragePadWidget.SelectedTestProjectChanged -= HandleSelectedTestProjectChanged;
+      CoveragePadWidget.CoverageResultsUpdated -= HandleCoverageResultsUpdated;
+      CoveragePadWidget.CoverageResultsCleared -= HandleCoverageResultsCleared;
       marginView.Dispose();
     }
   }
