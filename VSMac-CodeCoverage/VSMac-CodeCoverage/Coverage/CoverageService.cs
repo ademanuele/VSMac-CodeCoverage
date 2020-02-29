@@ -18,26 +18,44 @@ namespace CodeCoverage.Coverage
     ICoverageResults GetCoverage(Project testProject, ConfigurationSelector configuration);
   }
 
-  class CoverageService
+  class CoverageService: IDisposable
   {
-    public DateTime LastCoverageCollection { get; private set; }
     readonly ICoverageProvider provider;
-    protected readonly ICoverageResultsRepository repository;
+    readonly ICoverageResultsRepository repository;
+    bool isBusy;
 
     public CoverageService(ICoverageProvider provider, ICoverageResultsRepository repository)
     {
       this.provider = provider;
       this.repository = repository;
+      UnitTestService.TestSessionStarting += UnitTestService_TestSessionStarting;
     }
 
     public async Task CollectCoverageForTestProject(Project testProject)
     {
+      isBusy = true;
+      await RunTests(testProject);
+    }
+
+    protected virtual async Task RunTests(Project testProject)
+    {
+      IExecutionHandler mode = null;
+      ExecutionContext context = new ExecutionContext(mode, IdeApp.Workbench.ProgressMonitors.ConsoleFactory, null);
+      var firstRootTest = UnitTestService.FindRootTest(testProject);
+      if (firstRootTest == null || !firstRootTest.CanRun(mode)) return;
+      await UnitTestService.RunTest(firstRootTest, context, true).Task;
+    }
+
+    private void UnitTestService_TestSessionStarting(object sender, TestSessionEventArgs e)
+    {
+      if (!isBusy || !(e.Test.OwnerObject is Project testProject)) return;      
       var configuration = IdeApp.Workspace.ActiveConfiguration;
-      provider.Prepare(testProject, configuration);      
-      await RunTests(testProject).ContinueWith(t =>
+      provider.Prepare(testProject, configuration);
+      e.Session.Task.ContinueWith(task =>
       {
         var results = provider.GetCoverage(testProject, configuration);
         SaveResults(results, testProject, configuration);
+        isBusy = false;
       });
     }
 
@@ -46,13 +64,9 @@ namespace CodeCoverage.Coverage
       repository.SaveResults(results, testProject, configuration);
     }
 
-    protected virtual async Task RunTests(Project testProject)
+    public void Dispose()
     {
-      IExecutionHandler mode = null;      
-      ExecutionContext context = new ExecutionContext(mode, IdeApp.Workbench.ProgressMonitors.ConsoleFactory, null);      
-      var firstRootTest = UnitTestService.FindRootTest(testProject);
-      if (firstRootTest == null || !firstRootTest.CanRun(mode)) return;
-      await UnitTestService.RunTest(firstRootTest, context, true).Task;
+      UnitTestService.TestSessionStarting -= UnitTestService_TestSessionStarting;
     }
   }
 }

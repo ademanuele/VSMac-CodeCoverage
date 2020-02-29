@@ -42,6 +42,7 @@ namespace CodeCoverage.Coverage
     {
       testProjectService.TestProjectsChanged -= RefreshTestProjects;
       testProjectService.Dispose();
+      coverageService.Dispose();
     }
 
     void RefreshTestProjects()
