@@ -39,6 +39,13 @@ namespace CodeCoverage.Coverage
     IReadOnlyDictionary<string, CoverageSummary> coverageResults;
     int presentedResultIndex;
 
+    static readonly Dictionary<LogLevel, Color> statusMessageColorMap = new Dictionary<LogLevel, Color>
+      {
+        { LogLevel.Info, new Color(1, 1, 1) },
+        { LogLevel.Warn, new Color(1, 1, 1) },
+        { LogLevel.Error, new Color(1, 0, 0) }
+      };
+
     public CoveragePadWidget()
     {
       Build();
@@ -83,24 +90,7 @@ namespace CodeCoverage.Coverage
     public void SetStatusMessage(string message, LogLevel style)
     {
       statusLabel.Text = message;
-      statusLabel.SetForegroundColor(ColorForStyle());
-
-      Color ColorForStyle()
-      {
-        Color color;
-
-        switch (style)
-        {
-          case LogLevel.Error:
-            Color.TryParse("#FF0000", out color);
-            break;
-          default:
-            Color.TryParse("#FFFFFF", out color);
-            break;
-        }
-
-        return color;
-      }
+      statusLabel.SetForegroundColor(statusMessageColorMap[style]);
     }
 
     public void SetCoverageResults(IReadOnlyDictionary<string, CoverageSummary> results)
