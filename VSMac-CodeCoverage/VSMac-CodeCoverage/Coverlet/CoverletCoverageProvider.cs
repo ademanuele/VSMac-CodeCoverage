@@ -9,7 +9,7 @@ namespace CodeCoverage.Coverage
 {
   class CoverletCoverageProvider : ICoverageProvider
   {
-    Dictionary<Tuple<Project, ConfigurationSelector>, CoverletCoverage> projectCoverageMap;
+    readonly Dictionary<Tuple<Project, ConfigurationSelector>, CoverletCoverage> projectCoverageMap;
     readonly ILogger logger;
     readonly FileSystem fileSystem;
     readonly InstrumentationHelper instrumentationHelper;
@@ -44,10 +44,12 @@ namespace CodeCoverage.Coverage
 
     public ICoverageResults GetCoverage(Project testProject, ConfigurationSelector configuration)
     {
-      if (!projectCoverageMap.TryGetValue(new Tuple<Project, ConfigurationSelector>(testProject, configuration), out CoverletCoverage coverage))
+      var key = new Tuple<Project, ConfigurationSelector>(testProject, configuration);
+      if (!projectCoverageMap.TryGetValue(key, out CoverletCoverage coverage))
         return null;
 
       var results = coverage.GetCoverageResult();
+      projectCoverageMap.Remove(key);
       return new CoverletCoverageResults(results);
     }
   }
