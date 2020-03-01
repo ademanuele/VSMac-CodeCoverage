@@ -88,26 +88,18 @@ namespace CodeCoverage.Coverage
       pad.DisableUI();
       pad.ClearCoverageResults();
 
-      try
-      {
-        var progress = new Progress<Log>(l => pad.SetStatusMessage(l.Message, l.Level));
-        await coverageService.CollectCoverageForTestProject(pad.SelectedTestProject, progress);
-      }
-      catch (Exception e)
-      {
-        LogException(e);
-      }
-      finally
-      {
-        TestProjectSelectionChanged();
-        pad.EnableUI();
-      }
+      var progress = new Progress<Log>(HandleCoverageServiceUpdate);
+      await coverageService.CollectCoverageForTestProject(pad.SelectedTestProject, progress);
+
+      TestProjectSelectionChanged();
+      pad.EnableUI();
     }
 
-    void LogException(Exception e)
+    void HandleCoverageServiceUpdate(Log log)
     {
-      log.Error(e.ToString());
-      pad.SetStatusMessage("Failed to gather coverage. See log for details.", LogLevel.Error);
+      pad.SetStatusMessage(log.Message, log.Level);
+      if (log.Exception == null) return;
+      this.log.Error(log.Exception.ToString());
     }
   }
 }

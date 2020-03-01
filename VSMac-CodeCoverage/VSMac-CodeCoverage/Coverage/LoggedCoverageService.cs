@@ -13,11 +13,13 @@ namespace CodeCoverage.Coverage
   {
     public string Message { get; }
     public LogLevel Level { get; }
+    public Exception Exception { get; }
 
-    public Log(string message, LogLevel level)
+    public Log(string message, LogLevel level, Exception exception = null)
     {
       Message = message;
       Level = level;
+      Exception = exception;
     }
   }
 
@@ -34,16 +36,24 @@ namespace CodeCoverage.Coverage
 
     public LoggedCoverageService(ICoverageProvider provider, ICoverageResultsRepository repository) : base(provider, repository) { }
 
-    public Task CollectCoverageForTestProject(Project testProject, IProgress<Log> progress)
+    public async Task CollectCoverageForTestProject(Project testProject, IProgress<Log> progress)
     {
       this.progress = progress;
-      return CollectCoverageForTestProject(testProject);
+
+      try
+      {
+        await CollectCoverageForTestProject(testProject);
+      }
+      catch (Exception e)
+      {
+        progress.Report(new Log("Failed to gather coverage. See log for details.", LogLevel.Error, e));
+      }
     }
 
-    protected override Task RunTests(Project testProject)
+    protected override async Task RunTests(Project testProject)
     {
       progress.Report(new Log("Running unit tests...", LogLevel.Info));
-      return base.RunTests(testProject);
+      await base.RunTests(testProject);
     }
 
     protected override void SaveResults(ICoverageResults results, Project testProject, ConfigurationSelector configuration)
