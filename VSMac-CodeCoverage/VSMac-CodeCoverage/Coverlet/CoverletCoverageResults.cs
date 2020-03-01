@@ -26,7 +26,8 @@ namespace CodeCoverage.Coverage
         {
           var moduleLineCoverage = summary.CalculateLineCoverage(moduleInfo.Value);
           var moduleBranchCoverage = summary.CalculateBranchCoverage(moduleInfo.Value);
-          modulesCoverage[moduleInfo.Key] = new CoverageSummary(moduleLineCoverage.Percent, moduleBranchCoverage.Percent);
+          var moduleName = moduleInfo.Key.Replace(".dll", "");
+          modulesCoverage[moduleName] = new CoverageSummary(moduleLineCoverage.Percent, moduleBranchCoverage.Percent);
         }
 
         return modulesCoverage;
