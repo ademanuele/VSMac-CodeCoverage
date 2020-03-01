@@ -2,7 +2,7 @@
 
 A code coverage extension for Visual Studio for Mac that provides a new pad for displaying coverage statistics and visualizing line coverage in the editor margin.
 
-![](https://raw.githubusercontent.com/ademanuele/vsmac-codecoverage/master/doc/preview.mov "Preview")
+![](https://raw.githubusercontent.com/ademanuele/vsmac-codecoverage/master/doc/preview.gif "Preview")
 
 ## Installing
 
