@@ -19,8 +19,8 @@ namespace CodeCoverage
       }
     }
 
-    private static readonly CGColor CoveredColor = new CGColor(0.18f, 0.49f, 0.20f);
-    private static readonly CGColor UncoveredColor = new CGColor(0.49f, 0.20f, 0.18f);
+    private static readonly CGColor CoveredColor = new CGColor(0.18f, 0.49f, 0.20f, 0.5f);
+    private static readonly CGColor UncoveredColor = new CGColor(0.49f, 0.20f, 0.18f, 0.5f);
     private const float HorizontalPadding = 2f;
 
     private readonly ITextView textView;

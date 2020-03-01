@@ -11,20 +11,19 @@ namespace CodeCoverage.Coverage
   {
     readonly Dictionary<Tuple<Project, ConfigurationSelector>, CoverletCoverage> projectCoverageMap;
     readonly ILogger logger;
-    readonly FileSystem fileSystem;
-    readonly InstrumentationHelper instrumentationHelper;
+    readonly FileSystem fileSystem;    
 
     public CoverletCoverageProvider(ILoggingService log)
     {
       logger = new LoggingServiceCoverletLogger(log);
       fileSystem = new FileSystem();
-      instrumentationHelper = new InstrumentationHelper(new ProcessExitHandler(), new RetryHelper(), fileSystem);
       projectCoverageMap = new Dictionary<Tuple<Project, ConfigurationSelector>, CoverletCoverage>();
     }
 
     public void Prepare(Project testProject, ConfigurationSelector configuration)
     {
       var unitTestDll = testProject.GetOutputFileName(configuration).ToString();
+      var instrumentationHelper = new InstrumentationHelper(new ProcessExitHandler(), new RetryHelper(), fileSystem);
       var coverage = new CoverletCoverage(unitTestDll,
           new string[0],
           new string[0], // Include directories.

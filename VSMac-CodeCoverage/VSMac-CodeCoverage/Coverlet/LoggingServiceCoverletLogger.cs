@@ -5,7 +5,7 @@ namespace CodeCoverage.Coverage
 {
   class LoggingServiceCoverletLogger : ILogger
   {
-    ILoggingService loggingService;
+    readonly ILoggingService loggingService;
 
     public LoggingServiceCoverletLogger(ILoggingService loggingService)
     {

@@ -66,6 +66,12 @@ namespace CodeCoverage
 
       var configuration = IdeApp.Workspace.ActiveConfiguration;
       var results = CoverageResultsRepository.Instance.ResultsFor(project, configuration);
+      if (results == null)
+      {
+        coverage = null;
+        return false;
+      }
+
       coverage = results.CoverageForFile(filePath);
       return true;
     }
