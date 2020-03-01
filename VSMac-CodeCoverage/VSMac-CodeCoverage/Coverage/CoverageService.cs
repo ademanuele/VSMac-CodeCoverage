@@ -18,11 +18,12 @@ namespace CodeCoverage.Coverage
     ICoverageResults GetCoverage(Project testProject, ConfigurationSelector configuration);
   }
 
-  class CoverageService: IDisposable
+  class CoverageService : IDisposable
   {
     readonly ICoverageProvider provider;
     readonly ICoverageResultsRepository repository;
-    bool isBusy;
+
+    TaskCompletionSource<bool> coverageCollectionCompletion;
 
     public CoverageService(ICoverageProvider provider, ICoverageResultsRepository repository)
     {
@@ -33,8 +34,9 @@ namespace CodeCoverage.Coverage
 
     public async Task CollectCoverageForTestProject(Project testProject)
     {
-      isBusy = true;
       await RunTests(testProject);
+      await coverageCollectionCompletion.Task;
+      coverageCollectionCompletion = null;
     }
 
     protected virtual async Task RunTests(Project testProject)
@@ -42,20 +44,22 @@ namespace CodeCoverage.Coverage
       IExecutionHandler mode = null;
       ExecutionContext context = new ExecutionContext(mode, IdeApp.Workbench.ProgressMonitors.ConsoleFactory, null);
       var firstRootTest = UnitTestService.FindRootTest(testProject);
-      if (firstRootTest == null || !firstRootTest.CanRun(mode)) return;
+      if (coverageCollectionCompletion != null || firstRootTest == null || !firstRootTest.CanRun(mode)) return;
+      coverageCollectionCompletion = new TaskCompletionSource<bool>();
       await UnitTestService.RunTest(firstRootTest, context, true).Task;
     }
 
     private void UnitTestService_TestSessionStarting(object sender, TestSessionEventArgs e)
     {
-      if (!isBusy || !(e.Test.OwnerObject is Project testProject)) return;      
+      if (coverageCollectionCompletion == null || !(e.Test.OwnerObject is Project testProject)) return;
+
       var configuration = IdeApp.Workspace.ActiveConfiguration;
       provider.Prepare(testProject, configuration);
-      e.Session.Task.ContinueWith(task =>
+      e.Session.Task.ContinueWith(t =>
       {
         var results = provider.GetCoverage(testProject, configuration);
-        SaveResults(results, testProject, configuration);
-        isBusy = false;
+        if (results != null) SaveResults(results, testProject, configuration);
+        coverageCollectionCompletion.SetResult(true);
       });
     }
 
