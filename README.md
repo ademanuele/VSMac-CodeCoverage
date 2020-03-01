@@ -2,7 +2,7 @@
 
 A code coverage extension for Visual Studio for Mac that provides a new pad for displaying coverage statistics and visualizing line coverage in the editor margin.
 
-![](https://raw.githubusercontent.com/ademanuele/vsmac-codecoverage/master/doc/preview.gif "Preview")
+![](doc/preview.gif "Preview")
 
 ## Installing
 
@@ -10,7 +10,7 @@ A code coverage extension for Visual Studio for Mac that provides a new pad for 
 
 2. In Visual Studio for Mac, open `Extension Manager -> Install from file...` and install the downloaded file.
 
-![](https://raw.githubusercontent.com/ademanuele/vsmac-codecoverage/master/doc/extension_manager.png "Extension Manager")
+![](doc/extension_manager.png "Extension Manager")
 
 3. Restart Visual Studio for Mac.
 
