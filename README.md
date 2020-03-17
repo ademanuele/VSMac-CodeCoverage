@@ -15,6 +15,7 @@ A code coverage extension for Visual Studio for Mac that provides a new pad for 
 4. Done.
 
 ## Usage
+
 You can access the Coverage pad through `View -> Pads -> Coverage`.
 
 Select any test project that is currently open in the workspace using the dropdown menu and hit `Gather Coverage`.
@@ -25,6 +26,10 @@ Your test project should start running. When complete, line and branch coverage 
 - Keyboard shortcuts
 - Configurable editor margin colors
 - Coverage graphs
+
+## Reporting Issues
+
+If you find a bug or have a feature request, please report them at this repository's issues section.
 
 ## Support
 
