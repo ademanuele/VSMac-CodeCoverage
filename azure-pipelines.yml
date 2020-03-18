@@ -14,13 +14,12 @@ steps:
 - checkout: self
   submodules: true
 
-- task: MSBuild@1
+- task: NuGetCommand@2
   inputs:
-    solution: 'coverlet/*.sln'
-    platform: 'Any CPU'
-    configuration: 'Release'
-    clean: true
-    restoreNugetPackages: true
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: 'c3c3d8c3-50bb-4a11-8e03-8133bc4f8243'
     
 - task: MSBuild@1
   inputs:
