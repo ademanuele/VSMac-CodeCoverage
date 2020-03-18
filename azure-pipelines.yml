@@ -14,10 +14,13 @@ steps:
 - checkout: self
   submodules: true
 
-- task: NuGetCommand@2
+- task: MSBuild@1
   inputs:
-    command: 'restore'
-    restoreSolution: 'coverlet/*.sln'
+    solution: 'coverlet/*.sln'
+    platform: 'Any CPU'
+    configuration: 'Release'
+    clean: true
+    restoreNugetPackages: true
     
 - task: MSBuild@1
   inputs:
