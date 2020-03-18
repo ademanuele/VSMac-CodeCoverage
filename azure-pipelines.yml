@@ -10,6 +10,8 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- checkout: self
+  submodules: true
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
