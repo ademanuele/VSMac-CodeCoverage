@@ -10,8 +10,15 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
 - checkout: self
   submodules: true
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: 'coverlet/*.sln'
+    
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
