@@ -35,7 +35,7 @@ If you find a bug or have a feature request, please report them at this reposito
 
 If you like this tool and would like to support its development, you can...
 
-<a href="https://www.buymeacoffee.com/arthurdemanuele" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+<a href="https://www.buymeacoffee.com/arthurdemanuele" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 44.7px !important;width: 190px !important;" ></a>
 
 ## Authors
 
