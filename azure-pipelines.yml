@@ -5,7 +5,7 @@ pool:
   vmImage: 'macOS-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: 'VSMac-CodeCoverage/VSMac-CodeCoverage.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -17,12 +17,12 @@ steps:
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
-    restoreSolution: '**/*.sln'    
+    restoreSolution: '$(solution)'
     
 - task: MSBuild@1
   inputs:
-    solution: '**/*.sln'
-    platform: 'Any CPU'
-    configuration: 'Release'
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
     clean: true
-    restoreNugetPackages: true
+    restoreNugetPackages: false
