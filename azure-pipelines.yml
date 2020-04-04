@@ -13,11 +13,6 @@ steps:
 
 - checkout: self
   submodules: true
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '$(solution)'
     
 - task: MSBuild@1
   inputs:
@@ -25,4 +20,4 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     clean: true
-    restoreNugetPackages: false
+    restoreNugetPackages: true
