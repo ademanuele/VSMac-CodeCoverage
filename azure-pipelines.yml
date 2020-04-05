@@ -1,5 +1,5 @@
 trigger:
-- master
+- "*"
 
 pool:
   vmImage: 'macOS-latest'
@@ -9,15 +9,22 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
+jobs:
 
-- checkout: self
-  submodules: true
-    
-- task: MSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    clean: true
-    restoreNugetPackages: true
+  - job: Build
+    steps:
+      - checkout: self
+        submodules: true
+
+      - task: MSBuild@1
+        inputs:
+          solution: '$(solution)'
+          platform: '$(buildPlatform)'
+          configuration: '$(buildConfiguration)'
+          clean: true
+          restoreNugetPackages: true
+
+  - job: Release
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/heads/release'))
+    steps:
+      - script: "echo TESTING"
