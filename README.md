@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/arthur-demanuele/VSMac-CodeCoverage/_apis/build/status/ademanuele.VSMac-CodeCoverage?branchName=master)](https://dev.azure.com/arthur-demanuele/VSMac-CodeCoverage/_build/latest?definitionId=1&branchName=master)
+
 # VSMac-CodeCoverage
 
 A code coverage extension for Visual Studio for Mac that provides a new pad for displaying coverage statistics and visualizing line coverage in the editor margin.
