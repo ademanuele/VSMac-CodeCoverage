@@ -1,6 +1,3 @@
-trigger:
-- master
-
 pool:
   vmImage: 'macOS-latest'
 
@@ -9,20 +6,23 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-
-- checkout: self
-  submodules: true
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '$(solution)'
-    
-- task: MSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    clean: true
-    restoreNugetPackages: false
+jobs:
+  - job: Build
+    steps:
+    - checkout: self
+      submodules: true
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '$(solution)'
+    - task: MSBuild@1
+      inputs:
+        solution: '$(solution)'
+        platform: '$(buildPlatform)'
+        configuration: '$(buildConfiguration)'
+        clean: true
+        restoreNugetPackages: false
+  - job: Release
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'release/*'))
+    steps:
+    - script: echo Running release...
