@@ -6,7 +6,6 @@ using MonoDevelop.Ide;
 using MonoDevelop.Projects;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace CodeCoverage
 {
@@ -16,12 +15,12 @@ namespace CodeCoverage
     public NSView VisualElement => marginView;
     public bool Enabled => true;
 
-    private CoveragePadWidget CoveragePadWidget
+    private CoverageWidget CoverageWidget
     {
       get
       {
         if (!(IdeApp.Workbench.GetPad<CoveragePad>()?.Content is CoveragePad coveragePad)) return null;
-        return (CoveragePadWidget)coveragePad.Control;
+        return ((CoveragePadWidget)coveragePad.Control).CoverageWidget;
       }
     }
 
@@ -33,9 +32,9 @@ namespace CodeCoverage
       this.textView = textView;
       marginView = new CodeCoverageMarginView(textView, MarginSize);
       this.textView.LayoutChanged += OnTextViewLayoutChanged;
-      CoveragePadWidget.SelectedTestProjectChanged += HandleSelectedTestProjectChanged;
-      CoveragePadWidget.CoverageResultsUpdated += HandleCoverageResultsUpdated;
-      CoveragePadWidget.CoverageResultsCleared += HandleCoverageResultsCleared;
+      CoverageWidget.SelectedTestProjectChanged += HandleSelectedTestProjectChanged;
+      CoverageWidget.CoverageResultsUpdated += HandleCoverageResultsUpdated;
+      CoverageWidget.CoverageResultsCleared += HandleCoverageResultsCleared;
       UpdateCoverage();
     }
 
@@ -56,7 +55,7 @@ namespace CodeCoverage
     bool TryGetCoverageFor(ITextView textView, out Dictionary<int, int> coverage)
     {
       var filePath = GetFilePathFor(textView);
-      var project = CoveragePadWidget.SelectedTestProject;
+      var project = CoverageWidget.SelectedTestProject;
 
       if (project == null || filePath == null)
       {
@@ -88,9 +87,9 @@ namespace CodeCoverage
     public void Dispose()
     {
       textView.LayoutChanged -= OnTextViewLayoutChanged;
-      CoveragePadWidget.SelectedTestProjectChanged -= HandleSelectedTestProjectChanged;
-      CoveragePadWidget.CoverageResultsUpdated -= HandleCoverageResultsUpdated;
-      CoveragePadWidget.CoverageResultsCleared -= HandleCoverageResultsCleared;
+      CoverageWidget.SelectedTestProjectChanged -= HandleSelectedTestProjectChanged;
+      CoverageWidget.CoverageResultsUpdated -= HandleCoverageResultsUpdated;
+      CoverageWidget.CoverageResultsCleared -= HandleCoverageResultsCleared;
       marginView.Dispose();
     }
   }

@@ -51,6 +51,9 @@
     <Compile Include="EditorExtension\CodeCoverageMargin.cs" />
     <Compile Include="EditorExtension\CodeCoverageMarginProvider.cs" />
     <Compile Include="EditorExtension\CodeCoverageMarginView.cs" />
+    <Compile Include="CoverageWidget.cs" />
+    <Compile Include="gtk-gui\CodeCoverage.CoverageWidget.cs" />
+    <Compile Include="Coverage\TestProjectDropdownStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
@@ -100,6 +103,7 @@
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.UnitTesting" />
