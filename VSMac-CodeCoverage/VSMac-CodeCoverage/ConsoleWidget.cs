@@ -1,13 +1,15 @@
 ﻿using System;
+using CodeCoverage.Coverage;
 using Pango;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage
 {
-  public partial class CoverageConsoleWindow : Gtk.Window
+  [System.ComponentModel.ToolboxItem(true)]
+  public partial class ConsoleWidget : Gtk.Bin
   {
     readonly ILoggingService loggingService;
 
-    public CoverageConsoleWindow(ILoggingService log) : base(Gtk.WindowType.Popup)
+    public ConsoleWidget(ILoggingService log)
     {
       loggingService = log;
       Build();
@@ -32,7 +34,7 @@ namespace CodeCoverage.Coverage
     {
       base.Dispose();
       loggingService.Logged -= LoggingService_Logged;
-      loggingService.Cleared -= LoggingService_Cleared; 
+      loggingService.Cleared -= LoggingService_Cleared;
     }
 
     void LoggingService_Logged(object sender, string msg)

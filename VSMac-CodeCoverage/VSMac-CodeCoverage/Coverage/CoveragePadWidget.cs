@@ -9,7 +9,6 @@ namespace CodeCoverage.Coverage
   [System.ComponentModel.ToolboxItem(true)]
   public partial class CoveragePadWidget : Bin, IStatusBar
   {
-
     static readonly Dictionary<LogLevel, Color> statusMessageColorMap = new Dictionary<LogLevel, Color>
     {
       { LogLevel.Info, new Color(1, 1, 1) },
@@ -19,7 +18,7 @@ namespace CodeCoverage.Coverage
 
     public CoverageWidget CoverageWidget { get; }
     readonly ILoggingService log;
-    CoverageConsoleWindow consoleWindow;
+    PreferencesWindow preferencesWindow;
 
     public CoveragePadWidget()
     {
@@ -40,7 +39,7 @@ namespace CodeCoverage.Coverage
     {
       base.Dispose();
       CoverageWidget.Dispose();
-      consoleWindow.Dispose();
+      preferencesWindow.Dispose();
     }
 
     public void SetStatusMessage(string message, LogLevel style)
@@ -51,19 +50,19 @@ namespace CodeCoverage.Coverage
 
     protected void OnShowConsoleClicked(object sender, EventArgs e)
     {
-      if (consoleWindow == null)
+      if (preferencesWindow == null)
       {
-        consoleWindow = new CoverageConsoleWindow(log);
-        consoleWindow.Destroyed += HandleConsoleWindowDestroyed;
+        preferencesWindow = new PreferencesWindow(log);
+        preferencesWindow.Destroyed += HandleConsoleWindowDestroyed;
       }
 
-      consoleWindow.ShowAll();
+      preferencesWindow.ShowAll();
     }
 
     void HandleConsoleWindowDestroyed(object sender, EventArgs e)
     {
-      consoleWindow.Destroyed -= HandleConsoleWindowDestroyed;
-      consoleWindow = null;
+      preferencesWindow.Destroyed -= HandleConsoleWindowDestroyed;
+      preferencesWindow = null;
     }
   }
 }

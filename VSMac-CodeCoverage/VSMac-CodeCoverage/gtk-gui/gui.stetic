@@ -58,69 +58,6 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="CodeCoverage.Coverage.CoverageConsoleWindow" design-size="590 468">
-    <property name="MemberName" />
-    <property name="Title" translatable="yes">Coverage Console</property>
-    <property name="WindowPosition">Center</property>
-    <child>
-      <widget class="Gtk.HBox" id="hbox1">
-        <property name="MemberName" />
-        <property name="Spacing">6</property>
-        <property name="BorderWidth">5</property>
-        <child>
-          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
-            <property name="MemberName" />
-            <property name="ShadowType">In</property>
-            <child>
-              <widget class="Gtk.TextView" id="consoleTextView">
-                <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="ShowScrollbars">True</property>
-                <property name="Editable">False</property>
-                <property name="CursorVisible">False</property>
-                <property name="Text" translatable="yes" />
-                <property name="WrapMode">Char</property>
-                <property name="Indent">10</property>
-              </widget>
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">0</property>
-            <property name="AutoSize">True</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.VBox" id="vbox1">
-            <property name="MemberName" />
-            <property name="Spacing">6</property>
-            <child>
-              <widget class="Gtk.Button" id="clearConsoleButton">
-                <property name="MemberName" />
-                <property name="CanFocus">True</property>
-                <property name="Type">TextAndIcon</property>
-                <property name="Icon">stock:gtk-delete Menu</property>
-                <property name="Label" translatable="yes" />
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="HandleClearConsoleClicked" />
-              </widget>
-              <packing>
-                <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">1</property>
-            <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
-          </packing>
-        </child>
-      </widget>
-    </child>
-  </widget>
   <widget class="Gtk.Bin" id="CodeCoverage.CoverageWidget" design-size="300 300">
     <property name="MemberName" />
     <property name="Visible">False</property>
@@ -323,6 +260,79 @@
           </packing>
         </child>
       </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="CodeCoverage.ConsoleWidget" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <widget class="Gtk.HBox" id="hbox1">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <property name="BorderWidth">5</property>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="ShadowType">In</property>
+            <child>
+              <widget class="Gtk.TextView" id="consoleTextView">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">True</property>
+                <property name="Editable">False</property>
+                <property name="CursorVisible">False</property>
+                <property name="Text" translatable="yes" />
+                <property name="WrapMode">Char</property>
+                <property name="Indent">10</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.VBox" id="vbox1">
+            <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Gtk.Button" id="clearConsoleButton">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-delete Menu</property>
+                <property name="Label" translatable="yes" />
+                <property name="UseUnderline">True</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="CodeCoverage.PreferencesWindow" design-size="400 300">
+    <property name="MemberName" />
+    <property name="Title" translatable="yes">Code Coverage Preferences</property>
+    <property name="TypeHint">Utility</property>
+    <property name="WindowPosition">CenterOnParent</property>
+    <property name="BorderWidth">3</property>
+    <property name="DestroyWithParent">True</property>
+    <property name="Gravity">Center</property>
+    <child>
+      <placeholder />
     </child>
   </widget>
 </stetic-interface>
