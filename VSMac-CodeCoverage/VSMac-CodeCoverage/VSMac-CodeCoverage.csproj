@@ -54,8 +54,12 @@
     <Compile Include="Coverage\TestProjectDropdownStore.cs" />
     <Compile Include="ConsoleWidget.cs" />
     <Compile Include="gtk-gui\CodeCoverage.ConsoleWidget.cs" />
+    <Compile Include="PreferencesWidget.cs" />
+    <Compile Include="gtk-gui\CodeCoverage.PreferencesWidget.cs" />
     <Compile Include="PreferencesWindow.cs" />
     <Compile Include="gtk-gui\CodeCoverage.PreferencesWindow.cs" />
+    <Compile Include="EditorExtension\MarginColors.cs" />
+    <Compile Include="Coverage\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />

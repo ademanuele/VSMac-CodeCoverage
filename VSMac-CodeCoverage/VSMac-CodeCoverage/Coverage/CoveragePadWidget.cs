@@ -48,7 +48,7 @@ namespace CodeCoverage.Coverage
       statusLabel.SetForegroundColor(statusMessageColorMap[style]);
     }
 
-    protected void OnShowConsoleClicked(object sender, EventArgs e)
+    protected void OnPreferencesClicked(object sender, EventArgs e)
     {
       if (preferencesWindow == null)
       {

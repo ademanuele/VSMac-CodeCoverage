@@ -40,7 +40,7 @@ namespace CodeCoverage.Coverage
 			this.button4.Name = "button4";
 			this.button4.UseUnderline = true;
 			global::Gtk.Image w2 = new global::Gtk.Image();
-			w2.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-find-and-replace", global::Gtk.IconSize.Menu);
+			w2.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-preferences", global::Gtk.IconSize.Menu);
 			this.button4.Image = w2;
 			this.hbox3.Add(this.button4);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.hbox3[this.button4]));
@@ -59,7 +59,7 @@ namespace CodeCoverage.Coverage
 				this.Child.ShowAll();
 			}
 			this.Hide();
-			this.button4.Clicked += new global::System.EventHandler(this.OnShowConsoleClicked);
+			this.button4.Clicked += new global::System.EventHandler(this.OnPreferencesClicked);
 		}
 	}
 }

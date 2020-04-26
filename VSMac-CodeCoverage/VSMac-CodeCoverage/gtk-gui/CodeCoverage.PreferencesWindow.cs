@@ -4,24 +4,61 @@ namespace CodeCoverage
 {
 	public partial class PreferencesWindow
 	{
+		private global::Gtk.VBox rootVBox;
+
+		private global::Gtk.HBox hbox7;
+
+		private global::Gtk.Button button9;
+
 		protected virtual void Build()
 		{
 			global::Stetic.Gui.Initialize(this);
 			// Widget CodeCoverage.PreferencesWindow
+			this.WidthRequest = 400;
+			this.HeightRequest = 400;
+			this.CanFocus = true;
 			this.Name = "CodeCoverage.PreferencesWindow";
-			this.Title = global::Mono.Unix.Catalog.GetString("Code Coverage Preferences");
-			this.TypeHint = ((global::Gdk.WindowTypeHint)(5));
+			this.Title = global::Mono.Unix.Catalog.GetString("Coverage Preferences");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
-			this.BorderWidth = ((uint)(3));
+			this.Resizable = false;
+			this.AllowGrow = false;
 			this.DestroyWithParent = true;
 			this.Gravity = ((global::Gdk.Gravity)(5));
+			// Container child CodeCoverage.PreferencesWindow.Gtk.Container+ContainerChild
+			this.rootVBox = new global::Gtk.VBox();
+			this.rootVBox.Name = "rootVBox";
+			this.rootVBox.Spacing = 6;
+			// Container child rootVBox.Gtk.Box+BoxChild
+			this.hbox7 = new global::Gtk.HBox();
+			this.hbox7.Name = "hbox7";
+			this.hbox7.Spacing = 6;
+			// Container child hbox7.Gtk.Box+BoxChild
+			this.button9 = new global::Gtk.Button();
+			this.button9.CanFocus = true;
+			this.button9.Name = "button9";
+			this.button9.UseUnderline = true;
+			this.button9.Label = global::Mono.Unix.Catalog.GetString("Close");
+			this.hbox7.Add(this.button9);
+			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.hbox7[this.button9]));
+			w1.PackType = ((global::Gtk.PackType)(1));
+			w1.Position = 0;
+			w1.Expand = false;
+			w1.Fill = false;
+			this.rootVBox.Add(this.hbox7);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.rootVBox[this.hbox7]));
+			w2.PackType = ((global::Gtk.PackType)(1));
+			w2.Position = 1;
+			w2.Expand = false;
+			w2.Fill = false;
+			this.Add(this.rootVBox);
 			if ((this.Child != null))
 			{
 				this.Child.ShowAll();
 			}
 			this.DefaultWidth = 400;
-			this.DefaultHeight = 300;
+			this.DefaultHeight = 400;
 			this.Show();
+			this.button9.Clicked += new global::System.EventHandler(this.OnCloseButtonClicked);
 		}
 	}
 }
