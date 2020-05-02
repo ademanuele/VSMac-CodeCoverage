@@ -20,8 +20,7 @@ namespace CodeCoverage
 			this.Name = "CodeCoverage.PreferencesWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString("Coverage Preferences");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
-			this.Resizable = false;
-			this.AllowGrow = false;
+			this.AllowShrink = true;
 			this.DestroyWithParent = true;
 			this.Gravity = ((global::Gdk.Gravity)(5));
 			// Container child CodeCoverage.PreferencesWindow.Gtk.Container+ContainerChild

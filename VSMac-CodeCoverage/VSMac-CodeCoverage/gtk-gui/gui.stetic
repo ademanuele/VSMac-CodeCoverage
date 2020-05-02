@@ -541,8 +541,7 @@
     <property name="CanFocus">True</property>
     <property name="Title" translatable="yes">Coverage Preferences</property>
     <property name="WindowPosition">CenterOnParent</property>
-    <property name="Resizable">False</property>
-    <property name="AllowGrow">False</property>
+    <property name="AllowShrink">True</property>
     <property name="DestroyWithParent">True</property>
     <property name="Gravity">Center</property>
     <child>

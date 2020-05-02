@@ -34,10 +34,6 @@ namespace CodeCoverage
 
 		private global::Gtk.Label GtkLabel1;
 
-		private global::Gtk.Frame frame3;
-
-		private global::Gtk.Alignment GtkAlignment7;
-
 		protected virtual void Build()
 		{
 			global::Stetic.Gui.Initialize(this);
@@ -167,24 +163,7 @@ namespace CodeCoverage
 			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame1]));
 			w13.Position = 0;
 			w13.Expand = false;
-			w13.Fill = false;
-			// Container child vbox2.Gtk.Box+BoxChild
-			this.frame3 = new global::Gtk.Frame();
-			this.frame3.Name = "frame3";
-			this.frame3.ShadowType = ((global::Gtk.ShadowType)(0));
-			// Container child frame3.Gtk.Container+ContainerChild
-			this.GtkAlignment7 = new global::Gtk.Alignment(0F, 0F, 1F, 1F);
-			this.GtkAlignment7.Name = "GtkAlignment7";
-			this.GtkAlignment7.LeftPadding = ((uint)(12));
-			this.frame3.Add(this.GtkAlignment7);
-			this.GtkLabel1 = new global::Gtk.Label();
-			this.GtkLabel1.Name = "GtkLabel1";
-			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Coverage Options</b>");
-			this.GtkLabel1.UseMarkup = true;
-			this.frame3.LabelWidget = this.GtkLabel1;
-			this.vbox2.Add(this.frame3);
-			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame3]));
-			w15.Position = 1;
+			w13.Fill = false;			
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{
