@@ -30,12 +30,18 @@ namespace CodeCoverage
     public CodeCoverageMargin(ITextView textView)
     {
       this.textView = textView;
-      marginView = new CodeCoverageMarginView(textView, MarginSize);
+      marginView = new CodeCoverageMarginView(textView, MarginSize, Settings.Default.MarginColors);
       this.textView.LayoutChanged += OnTextViewLayoutChanged;
+      StartListeningForMaginChanges();
+      UpdateCoverage();
+    }
+
+    private void StartListeningForMaginChanges()
+    {
       CoverageWidget.SelectedTestProjectChanged += HandleSelectedTestProjectChanged;
       CoverageWidget.CoverageResultsUpdated += HandleCoverageResultsUpdated;
       CoverageWidget.CoverageResultsCleared += HandleCoverageResultsCleared;
-      UpdateCoverage();
+      Settings.Default.SettingsChanged += HandleSettingsChanged;
     }
 
     private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e) => marginView.NeedsDisplay = true;
@@ -45,6 +51,8 @@ namespace CodeCoverage
     private void HandleCoverageResultsUpdated(object sender, EventArgs e) => UpdateCoverage();
 
     private void HandleCoverageResultsCleared(object sender, EventArgs e) => marginView.Coverage = null;
+
+    private void HandleSettingsChanged(object sender, EventArgs e) => marginView.Colors = Settings.Default.MarginColors;
 
     void UpdateCoverage()
     {
@@ -90,6 +98,7 @@ namespace CodeCoverage
       CoverageWidget.SelectedTestProjectChanged -= HandleSelectedTestProjectChanged;
       CoverageWidget.CoverageResultsUpdated -= HandleCoverageResultsUpdated;
       CoverageWidget.CoverageResultsCleared -= HandleCoverageResultsCleared;
+      Settings.Default.SettingsChanged -= HandleSettingsChanged;
       marginView.Dispose();
     }
   }

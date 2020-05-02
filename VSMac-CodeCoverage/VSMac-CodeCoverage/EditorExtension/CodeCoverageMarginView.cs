@@ -3,6 +3,7 @@ using CoreGraphics;
 using Foundation;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
+using System;
 using System.Collections.Generic;
 
 namespace CodeCoverage
@@ -19,18 +20,25 @@ namespace CodeCoverage
       }
     }
 
-    private static readonly CGColor CoveredColor = new CGColor(0.18f, 0.49f, 0.20f, 0.5f);
-    private static readonly CGColor UncoveredColor = new CGColor(0.49f, 0.20f, 0.18f, 0.5f);
+    public MarginColors Colors { get => colors; set
+      {
+        colors = value;
+        NeedsDisplay = true;
+      }
+    }
+
     private const float HorizontalPadding = 2f;
 
     private readonly ITextView textView;
     private readonly double width;
+    private MarginColors colors;
     private Dictionary<int, int> coverage;
 
-    public CodeCoverageMarginView(ITextView textView, double width)
+    public CodeCoverageMarginView(ITextView textView, double width, MarginColors colors)
     {
       this.textView = textView;
       this.width = width;
+      this.colors = colors;
     }
 
     public override bool IsFlipped => true;
@@ -54,7 +62,7 @@ namespace CodeCoverage
       var top = line.Top - textView.ViewportTop;
       var rect = new CGRect(0, top, width, line.Height);
 
-      context.SetFillColor(visitCount > 0 ? CoveredColor : UncoveredColor);
+      context.SetFillColor(visitCount > 0 ? Colors.BackgroundCovered.ToCGColor() : Colors.BackgroundUncovered.ToCGColor());
       context.FillRect(rect);
 
       var attrs = new NSStringAttributes();
@@ -69,9 +77,22 @@ namespace CodeCoverage
       var coverageString = new NSString(visitCount.ToString());
       var stringAttributes = new NSStringAttributes
       {
-        ForegroundColor = NSColor.White,
+        ForegroundColor = Colors.Foreground.ToNSColor()
       };
       coverageString.DrawInRect(textRect, stringAttributes);
+    }
+  }
+
+  static class GtkColorExtension
+  {
+    public static NSColor ToNSColor(this Gdk.Color c)
+    {
+      return NSColor.FromRgb(c.Red, c.Green, c.Blue);
+    }
+
+    public static CGColor ToCGColor(this Gdk.Color c)
+    {
+      return c.ToNSColor().CGColor;
     }
   }
 }

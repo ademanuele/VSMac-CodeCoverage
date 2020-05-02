@@ -30,13 +30,13 @@ namespace CodeCoverage
 
 		private global::Gtk.ColorButton coveredColorButton;
 
-		private global::Gtk.Label GtkLabel;
+		private global::Gtk.Button button1;
+
+		private global::Gtk.Label GtkLabel1;
 
 		private global::Gtk.Frame frame3;
 
-		private global::Gtk.Alignment GtkAlignment1;
-
-		private global::Gtk.Label GtkLabel1;
+		private global::Gtk.Alignment GtkAlignment7;
 
 		protected virtual void Build()
 		{
@@ -48,6 +48,7 @@ namespace CodeCoverage
 			this.vbox2 = new global::Gtk.VBox();
 			this.vbox2.Name = "vbox2";
 			this.vbox2.Spacing = 6;
+			this.vbox2.BorderWidth = ((uint)(5));
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.frame1 = new global::Gtk.Frame();
 			this.frame1.Name = "frame1";
@@ -143,35 +144,47 @@ namespace CodeCoverage
 			w9.Position = 2;
 			w9.Expand = false;
 			w9.Fill = false;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.button1 = new global::Gtk.Button();
+			this.button1.CanFocus = true;
+			this.button1.Name = "button1";
+			this.button1.UseUnderline = true;
+			this.button1.Label = global::Mono.Unix.Catalog.GetString("Reset to Defaults");
+			this.vbox3.Add(this.button1);
+			global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.button1]));
+			w10.PackType = ((global::Gtk.PackType)(1));
+			w10.Position = 3;
+			w10.Expand = false;
+			w10.Fill = false;
 			this.GtkAlignment.Add(this.vbox3);
 			this.frame1.Add(this.GtkAlignment);
-			this.GtkLabel = new global::Gtk.Label();
-			this.GtkLabel.Name = "GtkLabel";
-			this.GtkLabel.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Margins</b>");
-			this.GtkLabel.UseMarkup = true;
-			this.frame1.LabelWidget = this.GtkLabel;
+			this.GtkLabel1 = new global::Gtk.Label();
+			this.GtkLabel1.Name = "GtkLabel1";
+			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Margins</b>");
+			this.GtkLabel1.UseMarkup = true;
+			this.frame1.LabelWidget = this.GtkLabel1;
 			this.vbox2.Add(this.frame1);
-			global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame1]));
-			w12.Position = 0;
-			w12.Expand = false;
-			w12.Fill = false;
+			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame1]));
+			w13.Position = 0;
+			w13.Expand = false;
+			w13.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.frame3 = new global::Gtk.Frame();
 			this.frame3.Name = "frame3";
 			this.frame3.ShadowType = ((global::Gtk.ShadowType)(0));
 			// Container child frame3.Gtk.Container+ContainerChild
-			this.GtkAlignment1 = new global::Gtk.Alignment(0F, 0F, 1F, 1F);
-			this.GtkAlignment1.Name = "GtkAlignment1";
-			this.GtkAlignment1.LeftPadding = ((uint)(12));
-			this.frame3.Add(this.GtkAlignment1);
+			this.GtkAlignment7 = new global::Gtk.Alignment(0F, 0F, 1F, 1F);
+			this.GtkAlignment7.Name = "GtkAlignment7";
+			this.GtkAlignment7.LeftPadding = ((uint)(12));
+			this.frame3.Add(this.GtkAlignment7);
 			this.GtkLabel1 = new global::Gtk.Label();
 			this.GtkLabel1.Name = "GtkLabel1";
 			this.GtkLabel1.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Coverage Options</b>");
 			this.GtkLabel1.UseMarkup = true;
 			this.frame3.LabelWidget = this.GtkLabel1;
 			this.vbox2.Add(this.frame3);
-			global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame3]));
-			w14.Position = 1;
+			global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame3]));
+			w15.Position = 1;
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{
@@ -181,6 +194,7 @@ namespace CodeCoverage
 			this.foregroundColorButton.ColorSet += new global::System.EventHandler(this.OnColorSelectionSet);
 			this.uncoveredColorButton.ColorSet += new global::System.EventHandler(this.OnColorSelectionSet);
 			this.coveredColorButton.ColorSet += new global::System.EventHandler(this.OnColorSelectionSet);
+			this.button1.Clicked += new global::System.EventHandler(this.ResetToDefaultsClicked);
 		}
 	}
 }

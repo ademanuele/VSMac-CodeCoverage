@@ -30,5 +30,11 @@ namespace CodeCoverage
       var settings = CodeCoverage.Settings.Default;
       settings.MarginColors = new MarginColors(foregroundColorButton.Color, coveredColorButton.Color, uncoveredColorButton.Color);
     }
+
+    protected void ResetToDefaultsClicked(object sender, EventArgs e)
+    {
+      CodeCoverage.Settings.Default.MarginColors = MarginColors.DefaultColors;
+      LoadSettings();
+    }
   }
 }

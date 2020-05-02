@@ -32,9 +32,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AddinInfo.cs" />
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="Coverage\CoveragePad.cs" />
-    <Compile Include="Coverage\CoveragePadPresenter.cs" />
-    <Compile Include="Coverage\CoveragePadWidget.cs" />
     <Compile Include="Coverage\CoverageResults.cs" />
     <Compile Include="Coverage\CoverageService.cs" />
     <Compile Include="Coverage\LoggedCoverageService.cs" />
@@ -49,17 +46,20 @@
     <Compile Include="EditorExtension\CodeCoverageMargin.cs" />
     <Compile Include="EditorExtension\CodeCoverageMarginProvider.cs" />
     <Compile Include="EditorExtension\CodeCoverageMarginView.cs" />
-    <Compile Include="CoverageWidget.cs" />
     <Compile Include="gtk-gui\CodeCoverage.CoverageWidget.cs" />
-    <Compile Include="Coverage\TestProjectDropdownStore.cs" />
-    <Compile Include="ConsoleWidget.cs" />
     <Compile Include="gtk-gui\CodeCoverage.ConsoleWidget.cs" />
-    <Compile Include="PreferencesWidget.cs" />
     <Compile Include="gtk-gui\CodeCoverage.PreferencesWidget.cs" />
-    <Compile Include="PreferencesWindow.cs" />
     <Compile Include="gtk-gui\CodeCoverage.PreferencesWindow.cs" />
     <Compile Include="EditorExtension\MarginColors.cs" />
-    <Compile Include="Coverage\Settings.cs" />
+    <Compile Include="Pad\CoveragePad.cs" />
+    <Compile Include="Pad\CoveragePadPresenter.cs" />
+    <Compile Include="Pad\CoveragePadWidget.cs" />
+    <Compile Include="Pad\TestProjectDropdownStore.cs" />
+    <Compile Include="Pad\Settings.cs" />
+    <Compile Include="Pad\PreferencesWidget.cs" />
+    <Compile Include="Pad\PreferencesWindow.cs" />
+    <Compile Include="Pad\ConsoleWidget.cs" />
+    <Compile Include="Pad\CoverageWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
@@ -71,6 +71,7 @@
     <Folder Include="Coverage\" />
     <Folder Include="Coverlet\" />
     <Folder Include="EditorExtension\" />
+    <Folder Include="Pad\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />

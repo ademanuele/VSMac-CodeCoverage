@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using MonoDevelop.Core;
 
 namespace CodeCoverage
@@ -6,6 +7,8 @@ namespace CodeCoverage
   class Settings
   {
     public static Settings Default = new Settings();
+
+    public event EventHandler SettingsChanged;
 
     private Settings() { }
 
@@ -20,6 +23,8 @@ namespace CodeCoverage
     void SaveProperty<T>(T value, [CallerMemberName] string propertyName = "")
     {
       PropertyService.Set($"CodeCoverage.{propertyName}", value);
+      PropertyService.SaveProperties();
+      SettingsChanged?.Invoke(this, new EventArgs());
     }
 
     T GetProperty<T>(T defaultValue, [CallerMemberName] string propertyName = "")
