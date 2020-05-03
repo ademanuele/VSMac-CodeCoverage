@@ -41,7 +41,7 @@ namespace CodeCoverage.Coverage
     }
 
     protected virtual async Task RunTests(Project testProject)
-    {
+    {      
       IExecutionHandler mode = null;
       ExecutionContext context = new ExecutionContext(mode, IdeApp.Workbench.ProgressMonitors.ConsoleFactory, null);
       var firstRootTest = UnitTestService.FindRootTest(testProject);

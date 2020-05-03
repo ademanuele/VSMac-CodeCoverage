@@ -24,16 +24,16 @@ namespace CodeCoverage.Coverage
     {
       var unitTestDll = testProject.GetOutputFileName(configuration).ToString();
       var instrumentationHelper = new InstrumentationHelper(new ProcessExitHandler(), new RetryHelper(), fileSystem);
-      var coverage = new CoverletCoverage(unitTestDll,
-          new string[0],
-          new string[0], // Include directories.
-          new string[0],
-          new string[0],
-          new string[0],
-          false, // Include test assembly.
-          false, // Single hit.
-          null, // Merge with.
-          false, // Use source link.
+      var coverage = new CoverletCoverage(unitTestDll, 
+          new string[0], // Include Filters
+          new string[0], // Include directories
+          new string[0], // Exclude Filters
+          new string[0], // Excluded Source Files
+          new string[0], // Exclude Attributes
+          false, // Include test assembly
+          false, // Single hit
+          null, // Merge with
+          false, // Use source link
           logger,
           instrumentationHelper,
           fileSystem);
