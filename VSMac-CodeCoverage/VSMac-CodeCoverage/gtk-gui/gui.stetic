@@ -483,7 +483,7 @@
               </widget>
             </child>
             <child>
-              <widget class="Gtk.Label" id="GtkLabel">
+              <widget class="Gtk.Label" id="GtkLabel1">
                 <property name="MemberName" />
                 <property name="LabelProp" translatable="yes">&lt;b&gt;Margins&lt;/b&gt;</property>
                 <property name="UseMarkup">True</property>
@@ -540,14 +540,12 @@
     <property name="HeightRequest">400</property>
     <property name="CanFocus">True</property>
     <property name="Title" translatable="yes">Coverage Preferences</property>
-    <property name="WindowPosition">CenterOnParent</property>
-    <property name="AllowShrink">True</property>
+    <property name="WindowPosition">CenterAlways</property>
     <property name="DestroyWithParent">True</property>
     <property name="Gravity">Center</property>
     <child>
       <widget class="Gtk.VBox" id="rootVBox">
         <property name="MemberName" />
-        <property name="Spacing">6</property>
         <child>
           <placeholder />
         </child>
@@ -555,6 +553,7 @@
           <widget class="Gtk.HBox" id="hbox7">
             <property name="MemberName" />
             <property name="Spacing">6</property>
+            <property name="BorderWidth">4</property>
             <child>
               <widget class="Gtk.Button" id="button9">
                 <property name="MemberName" />

@@ -19,18 +19,17 @@ namespace CodeCoverage
 			this.CanFocus = true;
 			this.Name = "CodeCoverage.PreferencesWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString("Coverage Preferences");
-			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
-			this.AllowShrink = true;
+			this.WindowPosition = ((global::Gtk.WindowPosition)(3));
 			this.DestroyWithParent = true;
 			this.Gravity = ((global::Gdk.Gravity)(5));
 			// Container child CodeCoverage.PreferencesWindow.Gtk.Container+ContainerChild
 			this.rootVBox = new global::Gtk.VBox();
 			this.rootVBox.Name = "rootVBox";
-			this.rootVBox.Spacing = 6;
 			// Container child rootVBox.Gtk.Box+BoxChild
 			this.hbox7 = new global::Gtk.HBox();
 			this.hbox7.Name = "hbox7";
 			this.hbox7.Spacing = 6;
+			this.hbox7.BorderWidth = ((uint)(4));
 			// Container child hbox7.Gtk.Box+BoxChild
 			this.button9 = new global::Gtk.Button();
 			this.button9.CanFocus = true;
