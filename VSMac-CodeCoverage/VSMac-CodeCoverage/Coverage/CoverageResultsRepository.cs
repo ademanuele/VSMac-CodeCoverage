@@ -37,8 +37,8 @@ namespace CodeCoverage.Coverage
 
       string resultsFilePath = CoverageFilePathForProject(testProject, configuration);
       if (!File.Exists(resultsFilePath)) return null;
-      using (var stream = new FileStream(resultsFilePath, FileMode.Open))
-        return parser.ParseFrom(stream);
+      using FileStream stream = new FileStream(resultsFilePath, FileMode.Open);
+      return parser.ParseFrom(stream);
     }
 
     public void SaveResults(ICoverageResults results, Project testProject, ConfigurationSelector configuration)

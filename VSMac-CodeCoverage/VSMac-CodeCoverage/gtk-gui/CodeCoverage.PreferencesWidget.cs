@@ -163,7 +163,7 @@ namespace CodeCoverage
 			global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.frame1]));
 			w13.Position = 0;
 			w13.Expand = false;
-			w13.Fill = false;			
+			w13.Fill = false;
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{

@@ -8,30 +8,30 @@ namespace CodeCoverage.Coverage
 {
   class CoverletCoverageResults : ICoverageResults
   {
+    public Dictionary<string, CoverageSummary> ModuleCoverage { get; private set; }
+    
     readonly CoverletCoverageResult result;
 
     public CoverletCoverageResults(CoverletCoverageResult result)
     {
       this.result = result;
+      SetModuleCoverage();
     }
 
-    public Dictionary<string, CoverageSummary> ModuleCoverage
+    void SetModuleCoverage()
     {
-      get
+      var modulesCoverage = new Dictionary<string, CoverageSummary>();
+      var summary = new CoverletCoverageSummary();
+
+      foreach (var moduleInfo in result.Modules)
       {
-        var modulesCoverage = new Dictionary<string, CoverageSummary>();
-        var summary = new CoverletCoverageSummary();
-
-        foreach (var moduleInfo in result.Modules)
-        {
-          var moduleLineCoverage = summary.CalculateLineCoverage(moduleInfo.Value);
-          var moduleBranchCoverage = summary.CalculateBranchCoverage(moduleInfo.Value);
-          var moduleName = moduleInfo.Key.Replace(".dll", "");
-          modulesCoverage[moduleName] = new CoverageSummary(moduleLineCoverage.Percent, moduleBranchCoverage.Percent);
-        }
-
-        return modulesCoverage;
+        var moduleLineCoverage = summary.CalculateLineCoverage(moduleInfo.Value);
+        var moduleBranchCoverage = summary.CalculateBranchCoverage(moduleInfo.Value);
+        var moduleName = moduleInfo.Key.Replace(".dll", "");
+        modulesCoverage[moduleName] = new CoverageSummary(moduleLineCoverage.Percent, moduleBranchCoverage.Percent);
       }
+
+      ModuleCoverage = modulesCoverage;
     }
 
     public Dictionary<int, int> CoverageForFile(string path)

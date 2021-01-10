@@ -27,11 +27,14 @@ You can access the Coverage pad through `View -> Pads -> Coverage`.
 Select any test project that is currently open in the workspace using the dropdown menu and hit `Gather Coverage`.
 Your test project should start running. When complete, line and branch coverage results for each covered project are shown on the pad as well as in margins for any editors that you have open.
 
-## Planned Features
+### Configuring Coverage Collection
+This extension supports most of the coverage configuration options currently provided by coverlet.
 
-- Keyboard shortcuts
-- Configurable editor margin colors
-- Coverage graphs
+These can be set by creating a file with the extension `.runsettings` in the directory alongside your solution file.
+
+You can use this [sample runsettings file](doc/example.runsettings) as a starting point.
+
+More info can be found on [coverlet's runsettings documentation.](https://github.com/coverlet-coverage/coverlet/blob/master/Documentation/VSTestIntegration.md#advanced-options-supported-via-runsettings)
 
 ## Reporting Issues
 
@@ -52,7 +55,6 @@ If you like this tool and would like to support its development, you can...
 ## Acknowledgments
 
 Big thanks to the [coverlet](https://github.com/tonerdo/coverlet) project, which made this extension possible.
-
 
 Big thanks to [David Karlas](https://developercommunity.visualstudio.com/users/25964/06b25657-7e73-4eef-bfae-8a6c57e7e6c9.html) for resolving an [issue](https://developercommunity.visualstudio.com/content/problem/907691/unable-to-create-custom-vs-for-mac-editor-margin.html) with the editor margin functionality.
 

@@ -500,47 +500,16 @@
             <property name="Fill">False</property>
           </packing>
         </child>
-        <child>
-          <widget class="Gtk.Frame" id="frame3">
-            <property name="MemberName" />
-            <property name="ShadowType">None</property>
-            <child>
-              <widget class="Gtk.Alignment" id="GtkAlignment7">
-                <property name="MemberName" />
-                <property name="Xalign">0</property>
-                <property name="Yalign">0</property>
-                <property name="LeftPadding">12</property>
-                <child>
-                  <placeholder />
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="Gtk.Label" id="GtkLabel1">
-                <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">&lt;b&gt;Coverage Options&lt;/b&gt;</property>
-                <property name="UseMarkup">True</property>
-              </widget>
-              <packing>
-                <property name="type">label_item</property>
-              </packing>
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">1</property>
-            <property name="AutoSize">True</property>
-          </packing>
-        </child>
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="CodeCoverage.PreferencesWindow" design-size="400 400">
+  <widget class="Gtk.Window" id="CodeCoverage.PreferencesWindow" design-size="550 400">
     <property name="MemberName" />
-    <property name="WidthRequest">400</property>
+    <property name="WidthRequest">550</property>
     <property name="HeightRequest">400</property>
     <property name="CanFocus">True</property>
     <property name="Title" translatable="yes">Coverage Preferences</property>
-    <property name="WindowPosition">CenterAlways</property>
+    <property name="WindowPosition">Center</property>
     <property name="DestroyWithParent">True</property>
     <property name="Gravity">Center</property>
     <child>
@@ -575,6 +544,53 @@
           <packing>
             <property name="PackType">End</property>
             <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Bin" id="CodeCoverage.Pad.InfoWidget" design-size="300 300">
+    <property name="MemberName" />
+    <property name="Visible">False</property>
+    <child>
+      <widget class="Gtk.VBox" id="rootVBox">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <property name="BorderWidth">10</property>
+        <child>
+          <widget class="Gtk.Label" id="titleLabel">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">VSMac-CodeCoverage Extension</property>
+            <property name="Justify">Center</property>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="versionLabel">
+            <property name="MemberName" />
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="label5">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">by Arthur Demanuele</property>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
