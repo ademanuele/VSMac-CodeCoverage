@@ -33,7 +33,7 @@ namespace CodeCoverage.Coverage
       testProjectService = new TestProjectService();
       testProjectService.TestProjectsChanged += RefreshTestProjects;
       resultsRepository = CoverageResultsRepository.Instance;
-      coverageService = new LoggedCoverageService(new CoverletCoverageProvider(log), resultsRepository);
+      coverageService = new LoggedCoverageService(new CoverletCoverageProvider(log), resultsRepository, log);
     }
 
     public void OnShown() => RefreshTestProjects();

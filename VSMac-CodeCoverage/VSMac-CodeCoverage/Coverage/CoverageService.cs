@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -79,7 +78,7 @@ namespace CodeCoverage.Coverage
       return ParseRunSettings(runSettingsFile);
     }
 
-    protected DataCollectorSettings ParseRunSettings(string runSettingsFile)
+    protected virtual DataCollectorSettings ParseRunSettings(string runSettingsFile)
     {
       try
       {
