@@ -3,7 +3,6 @@ using CoreGraphics;
 using Foundation;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Formatting;
-using System;
 using System.Collections.Generic;
 
 namespace CodeCoverage
@@ -20,7 +19,9 @@ namespace CodeCoverage
       }
     }
 
-    public MarginColors Colors { get => colors; set
+    public MarginColors Colors
+    {
+      get => colors; set
       {
         colors = value;
         NeedsDisplay = true;
