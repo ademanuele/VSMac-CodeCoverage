@@ -14,12 +14,12 @@ namespace CodeCoverage
 		{
 			global::Stetic.Gui.Initialize(this);
 			// Widget CodeCoverage.PreferencesWindow
-			this.WidthRequest = 400;
+			this.WidthRequest = 550;
 			this.HeightRequest = 400;
 			this.CanFocus = true;
 			this.Name = "CodeCoverage.PreferencesWindow";
 			this.Title = global::Mono.Unix.Catalog.GetString("Coverage Preferences");
-			this.WindowPosition = ((global::Gtk.WindowPosition)(3));
+			this.WindowPosition = ((global::Gtk.WindowPosition)(1));
 			this.DestroyWithParent = true;
 			this.Gravity = ((global::Gdk.Gravity)(5));
 			// Container child CodeCoverage.PreferencesWindow.Gtk.Container+ContainerChild
@@ -53,7 +53,7 @@ namespace CodeCoverage
 			{
 				this.Child.ShowAll();
 			}
-			this.DefaultWidth = 400;
+			this.DefaultWidth = 550;
 			this.DefaultHeight = 400;
 			this.Show();
 			this.button9.Clicked += new global::System.EventHandler(this.OnCloseButtonClicked);

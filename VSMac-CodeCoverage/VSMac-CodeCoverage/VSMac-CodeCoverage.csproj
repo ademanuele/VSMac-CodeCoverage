@@ -61,6 +61,8 @@
     <Compile Include="Pad\ConsoleWidget.cs" />
     <Compile Include="Pad\CoverageWidget.cs" />
     <Compile Include="Coverlet\CoverletRunSettingsConfiguration.cs" />
+    <Compile Include="Pad\InfoWidget.cs" />
+    <Compile Include="gtk-gui\CodeCoverage.Pad.InfoWidget.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
