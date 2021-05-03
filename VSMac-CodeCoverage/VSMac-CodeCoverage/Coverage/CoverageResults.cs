@@ -3,7 +3,7 @@ using System.IO;
 
 namespace CodeCoverage.Coverage
 {
-  interface ICoverageResults
+  public interface ICoverageResults
   {
     Dictionary<string, CoverageSummary> ModuleCoverage { get; }
     Dictionary<int, int> CoverageForFile(string path);

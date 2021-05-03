@@ -74,10 +74,11 @@ namespace CodeCoverage.Coverage
         }
         pad.SetCoverageResults(results.ModuleCoverage);
       }
-      catch (Exception)
+      catch (Exception e)
       {
         pad.ClearCoverageResults();
-        log.Warn($"Failed to load results for project {project.Name}.");
+        log.Error($"Failed to load results for project {project.Name}.");
+        log.Error(e.Message);
       }
     }
 
