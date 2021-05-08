@@ -63,18 +63,23 @@
     <Compile Include="Coverlet\CoverletRunSettingsConfiguration.cs" />
     <Compile Include="Pad\InfoWidget.cs" />
     <Compile Include="gtk-gui\CodeCoverage.Pad.InfoWidget.cs" />
+    <Compile Include="Pad\PadView\PadView.cs" />
+    <Compile Include="Pad\PadView\PadView.designer.cs">
+      <DependentUpon>PadView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
-    </EmbeddedResource>
+    </EmbeddedResource>    
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Coverage\" />
     <Folder Include="Coverlet\" />
     <Folder Include="EditorExtension\" />
     <Folder Include="Pad\" />
+    <Folder Include="Pad\PadView\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="gtk-sharp" />
@@ -153,6 +158,11 @@
       <Name>coverlet.core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>    
+    <InterfaceDefinition Include="Pad\PadView\PadView.xib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </InterfaceDefinition>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
@@ -164,4 +174,5 @@
     </MonoDevelop>
   </ProjectExtensions>
   <Import Project="..\packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.targets" Condition="Exists('..\packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.targets')" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
