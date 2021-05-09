@@ -63,10 +63,6 @@
     <Compile Include="Coverlet\CoverletRunSettingsConfiguration.cs" />
     <Compile Include="Pad\InfoWidget.cs" />
     <Compile Include="gtk-gui\CodeCoverage.Pad.InfoWidget.cs" />
-    <Compile Include="Pad\PadView\PadView.cs" />
-    <Compile Include="Pad\PadView\PadView.designer.cs">
-      <DependentUpon>PadView.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
@@ -79,7 +75,6 @@
     <Folder Include="Coverlet\" />
     <Folder Include="EditorExtension\" />
     <Folder Include="Pad\" />
-    <Folder Include="Pad\PadView\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="gtk-sharp" />
@@ -157,11 +152,10 @@
       <Project>{A8238F78-2D98-48C0-BFD7-AEBD3C456566}</Project>
       <Name>coverlet.core</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>    
-    <InterfaceDefinition Include="Pad\PadView\PadView.xib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </InterfaceDefinition>
+    <ProjectReference Include="..\CodeCoverage.Pad.Native\CodeCoverage.Pad.Native.csproj">
+      <Project>{B334D4D7-4B16-4863-9A11-A2EAF13FD6AF}</Project>
+      <Name>CodeCoverage.Pad.Native</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

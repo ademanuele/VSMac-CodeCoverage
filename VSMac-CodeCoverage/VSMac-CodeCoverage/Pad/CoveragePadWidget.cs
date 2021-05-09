@@ -9,7 +9,7 @@ namespace CodeCoverage.Coverage
   [System.ComponentModel.ToolboxItem(true)]
   public partial class CoveragePadWidget : Bin, IStatusBar
   {
-    static readonly Dictionary<LogLevel, Color> statusMessageColorMap = new Dictionary<LogLevel, Color>
+    static readonly Dictionary<LogLevel, Color> statusMessageColorMap = new()
     {
       { LogLevel.Info, new Color(1, 1, 1) },
       { LogLevel.Warn, new Color(1, 1, 1) },
