@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CodeCoverage.Core;
+using CodeCoverage.Core.Presentation;
 using CodeCoverage.Coverage;
 using Gtk;
 using MonoDevelop.Projects;
@@ -8,7 +10,7 @@ using MonoDevelop.Projects;
 namespace CodeCoverage
 {
   [System.ComponentModel.ToolboxItem(true)]
-  public partial class CoverageWidget : Bin, ICoveragePad
+  public partial class CoverageWidget : Bin
   {
     public Project SelectedTestProject
     {
@@ -42,7 +44,7 @@ namespace CodeCoverage
 
       Build();
       SetupCoverageLabels();
-      presenter = new CoveragePadPresenter(this, loggingService);
+      //presenter = new CoveragePadPresenter(this, loggingService, null, null);
 
       void SetupCoverageLabels()
       {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CodeCoverage.Core;
 using Gtk;
 using Xwt.Drawing;
 using Xwt.GtkBackend;

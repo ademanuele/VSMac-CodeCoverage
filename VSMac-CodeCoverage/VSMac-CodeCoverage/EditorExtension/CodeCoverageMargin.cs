@@ -72,7 +72,7 @@ namespace CodeCoverage
       }
 
       var configuration = IdeApp.Workspace.ActiveConfiguration;
-      var results = CoverageResultsRepository.Instance.ResultsFor(project, configuration);
+      var results = CoveragePad.Repository.ResultsFor(project, configuration);
       if (results == null)
       {
         coverage = null;

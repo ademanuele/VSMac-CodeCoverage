@@ -4,7 +4,7 @@ using MonoDevelop.Ide;
 using MonoDevelop.Projects;
 using MonoDevelop.UnitTesting;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Core
 {
   class TestProjectService : IDisposable
   {

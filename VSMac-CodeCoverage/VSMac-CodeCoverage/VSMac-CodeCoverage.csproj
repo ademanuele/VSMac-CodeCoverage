@@ -32,17 +32,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AddinInfo.cs" />
     <Compile Include="gtk-gui\generated.cs" />
-    <Compile Include="Coverage\CoverageResults.cs" />
-    <Compile Include="Coverage\CoverageService.cs" />
-    <Compile Include="Coverage\LoggedCoverageService.cs" />
-    <Compile Include="Coverage\TestProjectService.cs" />
     <Compile Include="gtk-gui\CodeCoverage.Coverage.CoveragePadWidget.cs" />
-    <Compile Include="Coverage\LoggingService.cs" />
     <Compile Include="Coverlet\CoverletCoverageProvider.cs" />
     <Compile Include="Coverlet\CoverletCoverageResults.cs" />
     <Compile Include="Coverlet\LoggingServiceCoverletLogger.cs" />
     <Compile Include="Coverlet\CoverletResultsParser.cs" />
-    <Compile Include="Coverage\CoverageResultsRepository.cs" />
     <Compile Include="EditorExtension\CodeCoverageMargin.cs" />
     <Compile Include="EditorExtension\CodeCoverageMarginProvider.cs" />
     <Compile Include="EditorExtension\CodeCoverageMarginView.cs" />
@@ -52,7 +46,6 @@
     <Compile Include="gtk-gui\CodeCoverage.PreferencesWindow.cs" />
     <Compile Include="EditorExtension\MarginColors.cs" />
     <Compile Include="Pad\CoveragePad.cs" />
-    <Compile Include="Pad\CoveragePadPresenter.cs" />
     <Compile Include="Pad\CoveragePadWidget.cs" />
     <Compile Include="Pad\TestProjectDropdownStore.cs" />
     <Compile Include="Pad\Settings.cs" />
@@ -71,7 +64,6 @@
     </EmbeddedResource>    
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Coverage\" />
     <Folder Include="Coverlet\" />
     <Folder Include="EditorExtension\" />
     <Folder Include="Pad\" />
@@ -155,6 +147,10 @@
     <ProjectReference Include="..\CodeCoverage.Pad.Native\CodeCoverage.Pad.Native.csproj">
       <Project>{B334D4D7-4B16-4863-9A11-A2EAF13FD6AF}</Project>
       <Name>CodeCoverage.Pad.Native</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CodeCoverage.Core\CodeCoverage.Core.csproj">
+      <Project>{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}</Project>
+      <Name>CodeCoverage.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

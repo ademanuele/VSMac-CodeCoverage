@@ -3,28 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using MonoDevelop.Projects;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Core
 {
-  interface ICoverageResultsRepository
+  public interface ICoverageResultsRepository
   {
     ICoverageResults ResultsFor(Project testProject, ConfigurationSelector configuration);
     void SaveResults(ICoverageResults results, Project testProject, ConfigurationSelector conguration);
   }
 
-  interface ICoverageResultsParser
+  public interface ICoverageResultsParser
   {
     string FileExtension { get; }
     ICoverageResults ParseFrom(Stream stream);
   }
 
-  class CoverageResultsRepository : ICoverageResultsRepository
+  public class CoverageResultsRepository : ICoverageResultsRepository
   {
-    public static ICoverageResultsRepository Instance { get; } = new CoverageResultsRepository(new CoverletResultsParser());
-
     readonly ICoverageResultsParser parser;
     readonly Dictionary<Tuple<Project, ConfigurationSelector>, ICoverageResults> cache;
 
-    private CoverageResultsRepository(ICoverageResultsParser parser)
+    public CoverageResultsRepository(ICoverageResultsParser parser)
     {
       this.parser = parser;
       cache = new Dictionary<Tuple<Project, ConfigurationSelector>, ICoverageResults>();

@@ -1,7 +1,9 @@
 ﻿using System.IO;
+using CodeCoverage.Core;
+using Coverlet.Core;
 using Newtonsoft.Json;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Coverlet
 {
   public class CoverletResultsParser : ICoverageResultsParser
   {
@@ -13,7 +15,7 @@ namespace CodeCoverage.Coverage
       using JsonTextReader jsonReader = new JsonTextReader(reader);
       JsonSerializer serializer = new JsonSerializer();
       serializer.Error += Serializer_Error;
-      var coverletResults = serializer.Deserialize<Coverlet.Core.CoverageResult>(jsonReader);
+      var coverletResults = serializer.Deserialize<CoverageResult>(jsonReader);
       return new CoverletCoverageResults(coverletResults);
     }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Core
 {
   public interface ICoverageResults
   {

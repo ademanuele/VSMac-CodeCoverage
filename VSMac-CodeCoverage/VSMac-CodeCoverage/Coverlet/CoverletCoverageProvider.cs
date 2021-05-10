@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+using CodeCoverage.Core;
 using Coverlet.Core;
 using Coverlet.Core.Abstractions;
 using Coverlet.Core.Helpers;
@@ -11,7 +12,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using MonoDevelop.Projects;
 using CoverletCoverage = Coverlet.Core.Coverage;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Coverlet
 {
   class CoverletCoverageProvider : ICoverageProvider
   {

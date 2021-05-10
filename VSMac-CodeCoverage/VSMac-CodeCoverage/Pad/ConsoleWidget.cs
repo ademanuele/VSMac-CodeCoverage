@@ -1,5 +1,5 @@
 ﻿using System;
-using CodeCoverage.Coverage;
+using CodeCoverage.Core;
 using Pango;
 
 namespace CodeCoverage

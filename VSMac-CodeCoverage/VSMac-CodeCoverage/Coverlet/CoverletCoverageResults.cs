@@ -3,8 +3,9 @@ using CoverletCoverageSummary = Coverlet.Core.CoverageSummary;
 using CoverletCoverageResult = Coverlet.Core.CoverageResult;
 using System.IO;
 using Newtonsoft.Json;
+using CodeCoverage.Core;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Coverlet
 {
   class CoverletCoverageResults : ICoverageResults
   {

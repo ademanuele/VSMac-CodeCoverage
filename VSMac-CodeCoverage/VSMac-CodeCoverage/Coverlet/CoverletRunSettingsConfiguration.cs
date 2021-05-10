@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using Coverlet.Core;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Coverlet
 {
   [XmlRoot(ElementName = "Configuration")]
   public class CoverletRunSettingsConfiguration

@@ -1,7 +1,8 @@
 ﻿using System;
+using CodeCoverage.Core;
 using Coverlet.Core.Abstractions;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Coverlet
 {
   class LoggingServiceCoverletLogger : ILogger
   {

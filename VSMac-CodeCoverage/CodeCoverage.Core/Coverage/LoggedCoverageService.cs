@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using MonoDevelop.Projects;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Core
 {
   public interface ILoggedCoverageService : ICoverageService
   {
@@ -31,7 +31,7 @@ namespace CodeCoverage.Coverage
     Error
   }
 
-  class LoggedCoverageService : CoverageService, ILoggedCoverageService
+  public class LoggedCoverageService : CoverageService, ILoggedCoverageService
   {
     IProgress<Log> progress;
     readonly ILoggingService loggingService;

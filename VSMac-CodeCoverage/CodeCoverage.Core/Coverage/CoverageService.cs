@@ -9,21 +9,21 @@ using MonoDevelop.Ide;
 using MonoDevelop.Projects;
 using MonoDevelop.UnitTesting;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Core
 {
   public interface ICoverageService
   {
     Task CollectCoverageForTestProject(Project testProject);
   }
 
-  interface ICoverageProvider
+  public interface ICoverageProvider
   {
     string RunSettingsDataCollectorFriendlyName { get; }
     void Prepare(Project testProject, ConfigurationSelector configuration, DataCollectorSettings coverageSettings);
     ICoverageResults GetCoverage(Project testProject, ConfigurationSelector configuration);
   }
 
-  class CoverageService : IDisposable
+  public class CoverageService : IDisposable
   {
     readonly ICoverageProvider provider;
     readonly ICoverageResultsRepository repository;

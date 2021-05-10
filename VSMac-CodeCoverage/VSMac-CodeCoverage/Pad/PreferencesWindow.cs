@@ -1,4 +1,4 @@
-﻿using CodeCoverage.Coverage;
+﻿using CodeCoverage.Core;
 using CodeCoverage.Pad;
 using Gtk;
 

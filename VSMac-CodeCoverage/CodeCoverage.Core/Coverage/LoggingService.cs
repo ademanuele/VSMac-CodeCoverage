@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Core
 {
 	public interface ILoggingService
 	{
@@ -14,7 +14,7 @@ namespace CodeCoverage.Coverage
 		void Echo(string message);
 	}
 
-	class LoggingService : ILoggingService
+	public class LoggingService : ILoggingService
 	{
 		const string Copyright = "Made by Arthur Demanuele - 2021 \n";
 

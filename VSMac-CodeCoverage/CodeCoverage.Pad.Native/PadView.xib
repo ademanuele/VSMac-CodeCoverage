@@ -45,6 +45,9 @@
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
+                                    <connections>
+                                        <action selector="GatherCoverageTapped:" target="Tz0-YH-iTc" id="gtf-Wf-rkG"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <constraints>
@@ -74,6 +77,9 @@
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="cellTitle"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="PreviousTestedProjectTapped:" target="Tz0-YH-iTc" id="3ZU-gI-cw4"/>
+                                        </connections>
                                     </button>
                                     <textField horizontalHuggingPriority="249" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JD4-Tu-7au">
                                         <rect key="frame" x="47" y="0.0" width="465" height="40"/>
@@ -92,6 +98,9 @@
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="cellTitle"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="NextTestedProjectTapped:" target="Tz0-YH-iTc" id="0XW-5B-6R2"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -233,6 +242,13 @@
                 <constraint firstAttribute="trailing" secondItem="kEm-y9-azH" secondAttribute="trailing" constant="8" id="Llb-E2-f33"/>
                 <constraint firstItem="kEm-y9-azH" firstAttribute="top" secondItem="Tz0-YH-iTc" secondAttribute="top" constant="8" id="Oqe-38-TAC"/>
             </constraints>
+            <connections>
+                <outlet property="BranchCoverageLabel" destination="pq5-Th-QrN" id="UAD-mB-5L5"/>
+                <outlet property="LineCoverageLabel" destination="qx6-zt-kQ0" id="MrT-Hz-q9a"/>
+                <outlet property="StatusLabel" destination="Q33-gr-8cM" id="KcG-EU-a8j"/>
+                <outlet property="TestProjectDropdown" destination="Bu7-9f-mJb" id="prK-pl-pPD"/>
+                <outlet property="TestedProjectLabel" destination="JD4-Tu-7au" id="rPR-nJ-vjw"/>
+            </connections>
             <point key="canvasLocation" x="58.5" y="179"/>
         </customView>
     </objects>

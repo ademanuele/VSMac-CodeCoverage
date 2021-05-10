@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using MonoDevelop.Ide;
 using MonoDevelop.Projects;
 
-namespace CodeCoverage.Coverage
+namespace CodeCoverage.Core.Presentation
 {
   public interface ICoveragePad
   {
-    Project SelectedTestProject { get; set; }
-    void SetTestProjects(IEnumerable<Project> testProjects);
+    TestProject SelectedTestProject { get; set; }
+    void SetTestProjects(IEnumerable<TestProject> testProjects);
     void DisableUI();
     void EnableUI();
     void SetStatusMessage(string message, LogLevel level);
@@ -18,22 +18,32 @@ namespace CodeCoverage.Coverage
     void SetCoverageResults(IReadOnlyDictionary<string, CoverageSummary> results);
   }
 
-  class CoveragePadPresenter : IDisposable
+  public class TestProject
+  {
+    public string DisplayName => IdeProject.Name;
+    internal Project IdeProject { get; }
+
+    internal TestProject(Project project) {
+      IdeProject = project;
+    }
+  }
+
+  public class CoveragePadPresenter : IDisposable
   {
     readonly ICoveragePad pad;
     readonly ILoggingService log;
-    readonly TestProjectService testProjectService;
-    readonly ICoverageResultsRepository resultsRepository;
+    readonly TestProjectService testProjectService;    
     readonly LoggedCoverageService coverageService;
+    readonly ICoverageResultsRepository resultsRepository;
 
-    public CoveragePadPresenter(ICoveragePad pad, ILoggingService log)
+    public CoveragePadPresenter(ICoveragePad pad, ILoggingService log, ICoverageResultsRepository repository, ICoverageProvider provider)
     {
       this.pad = pad;
       this.log = log;
       testProjectService = new TestProjectService();
       testProjectService.TestProjectsChanged += RefreshTestProjects;
-      resultsRepository = CoverageResultsRepository.Instance;
-      coverageService = new LoggedCoverageService(new CoverletCoverageProvider(log), resultsRepository, log);
+      coverageService = new LoggedCoverageService(provider, resultsRepository, log);
+      resultsRepository = repository;
     }
 
     public void OnShown() => RefreshTestProjects();
@@ -47,7 +57,8 @@ namespace CodeCoverage.Coverage
 
     void RefreshTestProjects()
     {
-      var testProjects = testProjectService.TestProjects;
+      var testProjects = testProjectService.TestProjects
+        .Select(p => new TestProject(p)).AsEnumerable();
       pad.ClearCoverageResults();
       pad.SetTestProjects(testProjects);
       SelectFirstProject();
@@ -66,7 +77,7 @@ namespace CodeCoverage.Coverage
       var configuration = IdeApp.Workspace.ActiveConfiguration;
       try
       {
-        var results = resultsRepository.ResultsFor(project, configuration);
+        var results = resultsRepository.ResultsFor(project.IdeProject, configuration);
         if (results == null)
         {
           pad.ClearCoverageResults();
@@ -77,7 +88,7 @@ namespace CodeCoverage.Coverage
       catch (Exception e)
       {
         pad.ClearCoverageResults();
-        log.Error($"Failed to load results for project {project.Name}.");
+        log.Error($"Failed to load results for project {project.IdeProject.Name}.");
         log.Error(e.Message);
       }
     }
@@ -90,7 +101,7 @@ namespace CodeCoverage.Coverage
       pad.ClearCoverageResults();
 
       var progress = new Progress<Log>(HandleCoverageServiceUpdate);
-      await coverageService.CollectCoverageForTestProject(pad.SelectedTestProject, progress);
+      await coverageService.CollectCoverageForTestProject(pad.SelectedTestProject.IdeProject, progress);
 
       TestProjectSelectionChanged();
       pad.EnableUI();

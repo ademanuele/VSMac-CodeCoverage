@@ -64,5 +64,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </InterfaceDefinition>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeCoverage.Core\CodeCoverage.Core.csproj">
+      <Project>{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}</Project>
+      <Name>CodeCoverage.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
