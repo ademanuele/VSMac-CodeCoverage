@@ -7,15 +7,14 @@ using CodeCoverage.Core.Presentation;
 using CodeCoverage.Core;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.Utilities.Internal;
 
 namespace CodeCoverage.Pad.Native
 {
   public partial class PadView : NSView, ICoveragePad
   {
+    #region Constructors
     private const string padViewNibResourceId = "__xammac_content_PadView.nib";
 
-    #region Constructors
     // Called when created from unmanaged code
     public PadView(IntPtr handle) : base(handle) { }
 
@@ -24,8 +23,7 @@ namespace CodeCoverage.Pad.Native
     public PadView(NSCoder coder) : base(coder) { }
 
     public PadView RootView { get; }
-    private CoveragePadPresenter presenter;
-    private IReadOnlyDictionary<string, CoverageSummary> currentResults;
+    private CoveragePadPresenter presenter;    
 
     public PadView(ILoggingService loggingService, ICoverageResultsRepository repository, ICoverageProvider provider)
     {
@@ -60,45 +58,124 @@ namespace CodeCoverage.Pad.Native
       return null;
     }
 
-    public override void ViewDidUnhide()
+    protected override void Dispose(bool disposing)
     {
-      base.ViewDidUnhide();
+      base.Dispose(disposing);
+      if (!disposing) return;
+      presenter.Dispose();
     }
     #endregion
 
     public event Action OpeningPreferences;
 
-    partial void PreferencesTapped(NSButton sender)
-    {
-      OpeningPreferences?.Invoke();
-    }
+    private IReadOnlyDictionary<string, CoverageSummary> currentResults;
+    private IReadOnlyList<TestProject> testProjects;
+    private int presentedResultIndex;
 
     #region Test Project Dropdown
-    public TestProject SelectedTestProject { get => selectedTestProject; set => selectedTestProject = value; }
-    TestProject selectedTestProject;
+    public TestProject SelectedTestProject { get
+      {
+        if (testProjects == null) return null;
+        return testProjects[(int)TestProjectDropdown.IndexOfSelectedItem];
+      }
+      set
+      {
+        if (testProjects == null) return;
+        int index = testProjects.ToList().IndexOf(value);
+        TestProjectDropdown.SelectItem(index);
+      }
+    }
 
-    public void SetTestProjects(IEnumerable<TestProject> testProjects)
+    public void SetTestProjects(IReadOnlyList<TestProject> testProjects)
     {
+      this.testProjects = testProjects;
       TestProjectDropdown.RemoveAllItems();
-      TestProjectDropdown.AddItems(testProjects.Select(p => p.DisplayName).ToArray());      
+      TestProjectDropdown.AddItems(testProjects.Select(p => p.DisplayName).ToArray());
+    }
+
+    partial void TestProjectDropdownChanged(NSPopUpButton sender)
+    {
+      presenter.TestProjectSelectionChanged();
     }
     #endregion
 
+    public void SetCoverageResults(IReadOnlyDictionary<string, CoverageSummary> results)
+    {
+      currentResults = results;
+      PresentCoverageAtIndex(0);
+    }
+
+    partial void NextTestedProjectTapped(NSButton sender)
+    {
+      if (currentResults == null) return;
+      PresentCoverageAtIndex((presentedResultIndex + 1) % currentResults.Count);
+    }
+
+    partial void PreviousTestedProjectTapped(NSButton sender)
+    {
+      if (currentResults == null) return;
+      PresentCoverageAtIndex(Math.Abs(presentedResultIndex - 1) % currentResults.Count);
+    }
+
+    void PresentCoverageAtIndex(int index)
+    {
+      if (currentResults == null || index >= currentResults.Count)
+      {
+        ClearCoverageResults();
+        return;
+      }
+
+      var coverage = currentResults.ElementAt(index);
+      TestedProjectLabel.StringValue = coverage.Key;      
+      LineCoverageLabel.StringValue = $"{Math.Round(coverage.Value.Line, 2)}%";
+      BranchCoverageLabel.StringValue = $"{Math.Round(coverage.Value.Branch, 2)}%";
+      presentedResultIndex = index;
+      EnableCoverageResultsUI();
+    }
+
+    public void ClearCoverageResults()
+    {
+      currentResults = null;
+      TestedProjectLabel.StringValue = string.Empty;
+      LineCoverageLabel.StringValue = "--";
+      BranchCoverageLabel.StringValue = "--";
+      DisableCoverageResultsUI();
+    }
+
+    void DisableCoverageResultsUI()
+    {
+      NextTestedProjectButton.Enabled = false;
+      PreviousTestProjectButton.Enabled = false;      
+    }
+
+    void EnableCoverageResultsUI()
+    {
+      NextTestedProjectButton.Enabled = true;
+      PreviousTestProjectButton.Enabled = true;
+    }
 
     public void DisableUI()
     {
-      
+      TestProjectDropdown.Enabled = false;
+      GatherCoverageButton.Enabled = false;
     }
 
     public void EnableUI()
     {
-      
+      TestProjectDropdown.Enabled = true;
+      GatherCoverageButton.Enabled = true;
     }
 
+    async partial void GatherCoverageTapped(NSButton sender)
+    {
+      await presenter.GatherCoverageAsync();
+    }
+
+    #region Status Label
     static readonly Dictionary<LogLevel, NSColor> statusMessageColorMap = new Dictionary<LogLevel, NSColor>()
     {
-      { LogLevel.Info, NSColor.FromRgb(1, 1, 1) },
-      { LogLevel.Warn, NSColor.FromRgb(1, 1, 1) },
+      { LogLevel.Info, NSColor.FromRgb(255, 255, 255) },
+      { LogLevel.Warn, NSColor.FromRgb(254, 217, 70) },
       { LogLevel.Error, NSColor.FromRgb(1, 0, 0) },
     };
 
@@ -107,31 +184,11 @@ namespace CodeCoverage.Pad.Native
       StatusLabel.StringValue = message;
       StatusLabel.TextColor = statusMessageColorMap[level];
     }
+    #endregion
 
-    public void ClearCoverageResults()
+    partial void PreferencesTapped(NSButton sender)
     {
-      
-    }
-
-    public void SetCoverageResults(IReadOnlyDictionary<string, CoverageSummary> results)
-    {
-      currentResults = results;
-
-    }
-
-    partial void NextTestedProjectTapped(NSButton sender)
-    {
-
-    }
-
-    partial void PreviousTestedProjectTapped(NSButton sender)
-    {
-
-    }
-
-    async partial void GatherCoverageTapped(NSButton sender)
-    {
-      await presenter.GatherCoverageAsync();
+      OpeningPreferences?.Invoke();
     }
   }
 }

@@ -10,7 +10,7 @@ namespace CodeCoverage.Core.Presentation
   public interface ICoveragePad
   {
     TestProject SelectedTestProject { get; set; }
-    void SetTestProjects(IEnumerable<TestProject> testProjects);
+    void SetTestProjects(IReadOnlyList<TestProject> testProjects);
     void DisableUI();
     void EnableUI();
     void SetStatusMessage(string message, LogLevel level);
@@ -32,18 +32,18 @@ namespace CodeCoverage.Core.Presentation
   {
     readonly ICoveragePad pad;
     readonly ILoggingService log;
-    readonly TestProjectService testProjectService;    
+    readonly ICoverageResultsRepository repository;
+    readonly TestProjectService testProjectService;
     readonly LoggedCoverageService coverageService;
-    readonly ICoverageResultsRepository resultsRepository;
 
     public CoveragePadPresenter(ICoveragePad pad, ILoggingService log, ICoverageResultsRepository repository, ICoverageProvider provider)
     {
       this.pad = pad;
       this.log = log;
+      this.repository = repository;
       testProjectService = new TestProjectService();
       testProjectService.TestProjectsChanged += RefreshTestProjects;
-      coverageService = new LoggedCoverageService(provider, resultsRepository, log);
-      resultsRepository = repository;
+      coverageService = new LoggedCoverageService(provider, repository, log);
     }
 
     public void OnShown() => RefreshTestProjects();
@@ -58,10 +58,11 @@ namespace CodeCoverage.Core.Presentation
     void RefreshTestProjects()
     {
       var testProjects = testProjectService.TestProjects
-        .Select(p => new TestProject(p)).AsEnumerable();
+        .Select(p => new TestProject(p)).ToList();
       pad.ClearCoverageResults();
       pad.SetTestProjects(testProjects);
       SelectFirstProject();
+      TestProjectSelectionChanged();
 
       void SelectFirstProject()
       {
@@ -77,7 +78,7 @@ namespace CodeCoverage.Core.Presentation
       var configuration = IdeApp.Workspace.ActiveConfiguration;
       try
       {
-        var results = resultsRepository.ResultsFor(project.IdeProject, configuration);
+        var results = repository.ResultsFor(project.IdeProject, configuration);
         if (results == null)
         {
           pad.ClearCoverageResults();

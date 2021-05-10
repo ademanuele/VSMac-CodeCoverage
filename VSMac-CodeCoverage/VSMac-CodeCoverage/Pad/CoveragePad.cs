@@ -22,8 +22,8 @@ namespace CodeCoverage.Coverage
     protected override void Initialize(IPadWindow window)
     {
       base.Initialize(window);      
-      provider = new CoverletCoverageProvider(log);
       log = new LoggingService();
+      provider = new CoverletCoverageProvider(log);
       padView = new PadView(log, Repository, provider).RootView;
       padView.OpeningPreferences += PadView_OpeningPreferences;
     }
@@ -31,8 +31,8 @@ namespace CodeCoverage.Coverage
     public override void Dispose()
     {
       base.Dispose();
-      preferencesWindow?.Dispose();
       padView.OpeningPreferences -= PadView_OpeningPreferences;
+      preferencesWindow?.Dispose();
     }
 
     private void PadView_OpeningPreferences()

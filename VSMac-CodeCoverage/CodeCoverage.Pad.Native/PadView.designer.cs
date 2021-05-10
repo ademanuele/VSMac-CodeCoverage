@@ -16,7 +16,16 @@ namespace CodeCoverage.Pad.Native
 		AppKit.NSTextField BranchCoverageLabel { get; set; }
 
 		[Outlet]
+		AppKit.NSButton GatherCoverageButton { get; set; }
+
+		[Outlet]
 		AppKit.NSTextField LineCoverageLabel { get; set; }
+
+		[Outlet]
+		AppKit.NSButton NextTestedProjectButton { get; set; }
+
+		[Outlet]
+		AppKit.NSButton PreviousTestProjectButton { get; set; }
 
 		[Outlet]
 		AppKit.NSTextField StatusLabel { get; set; }
@@ -38,6 +47,9 @@ namespace CodeCoverage.Pad.Native
 
 		[Action ("PreviousTestedProjectTapped:")]
 		partial void PreviousTestedProjectTapped (AppKit.NSButton sender);
+
+		[Action ("TestProjectDropdownChanged:")]
+		partial void TestProjectDropdownChanged (AppKit.NSPopUpButton sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -49,6 +61,16 @@ namespace CodeCoverage.Pad.Native
 			if (LineCoverageLabel != null) {
 				LineCoverageLabel.Dispose ();
 				LineCoverageLabel = null;
+			}
+
+			if (NextTestedProjectButton != null) {
+				NextTestedProjectButton.Dispose ();
+				NextTestedProjectButton = null;
+			}
+
+			if (PreviousTestProjectButton != null) {
+				PreviousTestProjectButton.Dispose ();
+				PreviousTestProjectButton = null;
 			}
 
 			if (StatusLabel != null) {
@@ -64,6 +86,11 @@ namespace CodeCoverage.Pad.Native
 			if (TestProjectDropdown != null) {
 				TestProjectDropdown.Dispose ();
 				TestProjectDropdown = null;
+			}
+
+			if (GatherCoverageButton != null) {
+				GatherCoverageButton.Dispose ();
+				GatherCoverageButton = null;
 			}
 		}
 	}
