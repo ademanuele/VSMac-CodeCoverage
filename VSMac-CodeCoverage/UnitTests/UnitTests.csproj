@@ -51,6 +51,10 @@
       <Project>{CF0EBF99-9274-40F2-A1B4-FE53EBC0E436}</Project>
       <Name>VSMac-CodeCoverage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeCoverage.Core\CodeCoverage.Core.csproj">
+      <Project>{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}</Project>
+      <Name>CodeCoverage.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

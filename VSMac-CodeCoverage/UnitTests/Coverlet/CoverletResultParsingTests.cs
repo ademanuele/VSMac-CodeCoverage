@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
-using CodeCoverage.Coverage;
+using CodeCoverage.Coverlet;
 using NUnit.Framework;
 
 namespace UnitTests.Coverlet
