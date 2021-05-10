@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using CodeCoverage.Core;
 using CodeCoverage.Coverlet;
 using CodeCoverage.Pad.Native;
@@ -11,27 +12,25 @@ namespace CodeCoverage.Coverage
   {
     public override string Id => "CodeCoverage.Coverage.CoveragePad";
 
-    public override Control Control => padView;
+    public override Control Control => PadView;
 
-    private PadView padView;
+    internal PadView PadView { get; private set; }
     private PreferencesWindow preferencesWindow;
-    private ILoggingService log;
-    internal static ICoverageResultsRepository Repository { get; } = new CoverageResultsRepository(new CoverletResultsParser());
-    private ICoverageProvider provider;
+    private ILoggingService log;    
 
     protected override void Initialize(IPadWindow window)
     {
-      base.Initialize(window);      
+      base.Initialize(window);
       log = new LoggingService();
-      provider = new CoverletCoverageProvider(log);
-      padView = new PadView(log, Repository, provider).RootView;
-      padView.OpeningPreferences += PadView_OpeningPreferences;
+      CoverageExtension.Setup(log, new CoverletCoverageProvider(log), new CoverletResultsParser());
+      PadView = new PadView().RootView;
+      PadView.OpeningPreferences += PadView_OpeningPreferences;
     }
 
     public override void Dispose()
     {
       base.Dispose();
-      padView.OpeningPreferences -= PadView_OpeningPreferences;
+      PadView.OpeningPreferences -= PadView_OpeningPreferences;
       preferencesWindow?.Dispose();
     }
 

@@ -22,10 +22,11 @@ namespace CodeCoverage.Pad.Native
     [Export("initWithCoder:")]
     public PadView(NSCoder coder) : base(coder) { }
 
-    public PadView RootView { get; }
-    private CoveragePadPresenter presenter;    
+    public PadView RootView { get; }    
 
-    public PadView(ILoggingService loggingService, ICoverageResultsRepository repository, ICoverageProvider provider)
+    private CoveragePadPresenter presenter;
+
+    public PadView()
     {
       Assembly assembly = typeof(PadView).Assembly;
       Stream nibStream = assembly.GetManifestResourceStream(padViewNibResourceId);
@@ -35,7 +36,7 @@ namespace CodeCoverage.Pad.Native
       if (nib.InstantiateNibWithOwner(this, out NSArray nibObjects))
       {
         RootView = GetPadViewFrom(nibObjects);
-        RootView.presenter = new CoveragePadPresenter(RootView, loggingService, repository, provider);        
+        RootView.presenter = CoverageExtension.Presenter(RootView);
       }
     }
 
@@ -67,6 +68,9 @@ namespace CodeCoverage.Pad.Native
     #endregion
 
     public event Action OpeningPreferences;
+    public event Action SelectedTestProjectChanged;
+    public event Action CoverageResultsUpdated;
+    public event Action CoverageResultsCleared;
 
     private IReadOnlyDictionary<string, CoverageSummary> currentResults;
     private IReadOnlyList<TestProject> testProjects;
@@ -83,6 +87,7 @@ namespace CodeCoverage.Pad.Native
         if (testProjects == null) return;
         int index = testProjects.ToList().IndexOf(value);
         TestProjectDropdown.SelectItem(index);
+        SelectedTestProjectChanged?.Invoke();
       }
     }
 
@@ -96,6 +101,7 @@ namespace CodeCoverage.Pad.Native
     partial void TestProjectDropdownChanged(NSPopUpButton sender)
     {
       presenter.TestProjectSelectionChanged();
+      SelectedTestProjectChanged?.Invoke();
     }
     #endregion
 
@@ -103,6 +109,7 @@ namespace CodeCoverage.Pad.Native
     {
       currentResults = results;
       PresentCoverageAtIndex(0);
+      CoverageResultsUpdated?.Invoke();
     }
 
     partial void NextTestedProjectTapped(NSButton sender)
@@ -140,6 +147,7 @@ namespace CodeCoverage.Pad.Native
       LineCoverageLabel.StringValue = "--";
       BranchCoverageLabel.StringValue = "--";
       DisableCoverageResultsUI();
+      CoverageResultsCleared?.Invoke();
     }
 
     void DisableCoverageResultsUI()

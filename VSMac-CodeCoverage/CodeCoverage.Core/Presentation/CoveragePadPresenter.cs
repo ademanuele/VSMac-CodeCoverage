@@ -21,7 +21,7 @@ namespace CodeCoverage.Core.Presentation
   public class TestProject
   {
     public string DisplayName => IdeProject.Name;
-    internal Project IdeProject { get; }
+    public Project IdeProject { get; }
 
     internal TestProject(Project project) {
       IdeProject = project;
@@ -36,7 +36,7 @@ namespace CodeCoverage.Core.Presentation
     readonly TestProjectService testProjectService;
     readonly LoggedCoverageService coverageService;
 
-    public CoveragePadPresenter(ICoveragePad pad, ILoggingService log, ICoverageResultsRepository repository, ICoverageProvider provider)
+    internal CoveragePadPresenter(ICoveragePad pad, ILoggingService log, ICoverageResultsRepository repository, ICoverageProvider provider)
     {
       this.pad = pad;
       this.log = log;

@@ -22,7 +22,7 @@ namespace CodeCoverage.Core
     readonly ICoverageResultsParser parser;
     readonly Dictionary<Tuple<Project, ConfigurationSelector>, ICoverageResults> cache;
 
-    public CoverageResultsRepository(ICoverageResultsParser parser)
+    internal CoverageResultsRepository(ICoverageResultsParser parser)
     {
       this.parser = parser;
       cache = new Dictionary<Tuple<Project, ConfigurationSelector>, ICoverageResults>();

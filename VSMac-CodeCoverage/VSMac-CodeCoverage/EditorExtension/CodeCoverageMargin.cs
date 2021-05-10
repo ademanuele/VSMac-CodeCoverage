@@ -1,9 +1,10 @@
 ﻿using AppKit;
+using CodeCoverage.Core;
 using CodeCoverage.Coverage;
+using CodeCoverage.Pad.Native;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using MonoDevelop.Ide;
-using MonoDevelop.Projects;
 using System;
 using System.Collections.Generic;
 
@@ -15,12 +16,13 @@ namespace CodeCoverage
     public NSView VisualElement => marginView;
     public bool Enabled => true;
 
-    private CoverageWidget CoverageWidget
+    private PadView CoveragePad
     {
       get
       {
-        if (!(IdeApp.Workbench.GetPad<CoveragePad>()?.Content is CoveragePad coveragePad)) return null;
-        return ((CoveragePadWidget)coveragePad.Control).CoverageWidget;
+        var pad = IdeApp.Workbench.GetPad<CoveragePad>();
+        if (pad?.Content is not CoveragePad coveragePad) return null;
+        return coveragePad.PadView;
       }
     }
 
@@ -38,19 +40,20 @@ namespace CodeCoverage
 
     private void StartListeningForMaginChanges()
     {
-      CoverageWidget.SelectedTestProjectChanged += HandleSelectedTestProjectChanged;
-      CoverageWidget.CoverageResultsUpdated += HandleCoverageResultsUpdated;
-      CoverageWidget.CoverageResultsCleared += HandleCoverageResultsCleared;
       Settings.Default.SettingsChanged += HandleSettingsChanged;
+      if (CoveragePad == null) return;
+      CoveragePad.SelectedTestProjectChanged += HandleSelectedTestProjectChanged;
+      CoveragePad.CoverageResultsUpdated += HandleCoverageResultsUpdated;
+      CoveragePad.CoverageResultsCleared += HandleCoverageResultsCleared;
     }
 
     private void OnTextViewLayoutChanged(object sender, TextViewLayoutChangedEventArgs e) => marginView.NeedsDisplay = true;
 
-    private void HandleSelectedTestProjectChanged(object sender, Project e) => UpdateCoverage();
+    private void HandleSelectedTestProjectChanged() => UpdateCoverage();
 
-    private void HandleCoverageResultsUpdated(object sender, EventArgs e) => UpdateCoverage();
+    private void HandleCoverageResultsUpdated() => UpdateCoverage();
 
-    private void HandleCoverageResultsCleared(object sender, EventArgs e) => marginView.Coverage = null;
+    private void HandleCoverageResultsCleared() => marginView.Coverage = null;
 
     private void HandleSettingsChanged(object sender, EventArgs e) => marginView.Colors = Settings.Default.MarginColors;
 
@@ -63,7 +66,7 @@ namespace CodeCoverage
     bool TryGetCoverageFor(ITextView textView, out Dictionary<int, int> coverage)
     {
       var filePath = GetFilePathFor(textView);
-      var project = CoverageWidget.SelectedTestProject;
+      var project = CoveragePad?.SelectedTestProject;
 
       if (project == null || filePath == null)
       {
@@ -72,7 +75,7 @@ namespace CodeCoverage
       }
 
       var configuration = IdeApp.Workspace.ActiveConfiguration;
-      var results = CoveragePad.Repository.ResultsFor(project, configuration);
+      var results = CoverageExtension.Repository?.ResultsFor(project.IdeProject, configuration);
       if (results == null)
       {
         coverage = null;
@@ -95,11 +98,12 @@ namespace CodeCoverage
     public void Dispose()
     {
       textView.LayoutChanged -= OnTextViewLayoutChanged;
-      CoverageWidget.SelectedTestProjectChanged -= HandleSelectedTestProjectChanged;
-      CoverageWidget.CoverageResultsUpdated -= HandleCoverageResultsUpdated;
-      CoverageWidget.CoverageResultsCleared -= HandleCoverageResultsCleared;
       Settings.Default.SettingsChanged -= HandleSettingsChanged;
       marginView.Dispose();
+      if (CoveragePad == null) return;
+      CoveragePad.SelectedTestProjectChanged -= HandleSelectedTestProjectChanged;
+      CoveragePad.CoverageResultsUpdated -= HandleCoverageResultsUpdated;
+      CoveragePad.CoverageResultsCleared -= HandleCoverageResultsCleared;
     }
   }
 }
