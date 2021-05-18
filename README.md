@@ -22,7 +22,7 @@ Any future updates to the extension should show up in the `Updates` tab of the E
 
 ## Usage
 
-You can access the Coverage pad through `View -> Pads -> Coverage`.
+You can access the Coverage pad through `View -> Other Windows -> Coverage`.
 
 Select any test project that is currently open in the workspace using the dropdown menu and hit `Gather Coverage`.
 Your test project should start running. When complete, line and branch coverage results for each covered project are shown on the pad as well as in margins for any editors that you have open.
