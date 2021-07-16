@@ -14,7 +14,7 @@ using CoverletCoverage = Coverlet.Core.Coverage;
 
 namespace CodeCoverage.Coverlet
 {
-  class CoverletCoverageProvider : ICoverageProvider
+  public class CoverletCoverageProvider : ICoverageProvider
   {
     readonly Dictionary<Tuple<Project, ConfigurationSelector>, CoverletCoverage> projectCoverageMap;
     readonly ILogger logger;

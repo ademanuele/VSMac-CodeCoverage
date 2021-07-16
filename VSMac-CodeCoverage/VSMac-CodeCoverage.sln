@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCoverage.Pad.Native", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCoverage.Core", "CodeCoverage.Core\CodeCoverage.Core.csproj", "{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCoverage.Core.Coverlet", "CodeCoverage.Core.Coverlet\CodeCoverage.Core.Coverlet.csproj", "{426AD28D-8E72-4BA9-8C91-18492CFB7370}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{426AD28D-8E72-4BA9-8C91-18492CFB7370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{426AD28D-8E72-4BA9-8C91-18492CFB7370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{426AD28D-8E72-4BA9-8C91-18492CFB7370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{426AD28D-8E72-4BA9-8C91-18492CFB7370}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
