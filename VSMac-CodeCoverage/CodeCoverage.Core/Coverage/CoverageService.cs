@@ -2,8 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
+using System.Xml;
 using MonoDevelop.Core.Execution;
 using MonoDevelop.Ide;
 using MonoDevelop.Projects;
@@ -19,8 +18,22 @@ namespace CodeCoverage.Core
   public interface ICoverageProvider
   {
     string RunSettingsDataCollectorFriendlyName { get; }
-    void Prepare(Project testProject, ConfigurationSelector configuration, DataCollectorSettings coverageSettings);
+    void Prepare(CoverageSettings settings);
     ICoverageResults GetCoverage(Project testProject, ConfigurationSelector configuration);
+  }
+
+  public struct CoverageSettings
+  {
+    public Project TestProject { get; }
+    public ConfigurationSelector Configuration { get; }
+    public XmlNode CollectionSettings { get; }
+
+    public CoverageSettings(Project testProject, ConfigurationSelector configuration, XmlNode collectionSettings)
+    {
+      TestProject = testProject;
+      Configuration = configuration;
+      CollectionSettings = collectionSettings;
+    }
   }
 
   public class CoverageService : IDisposable
@@ -60,15 +73,15 @@ namespace CodeCoverage.Core
       if (coverageCollectionCompletion == null || e.Test.OwnerObject is not Project testProject) return;
 
       var configuration = IdeApp.Workspace.ActiveConfiguration;
-      DataCollectorSettings coverageSettings = GetRunSettings(testProject);
-      provider.Prepare(testProject, configuration, coverageSettings);
+      XmlNode coverageSettings = GetRunSettings(testProject);
+      provider.Prepare(new CoverageSettings(testProject, configuration, coverageSettings));
       await e.Session.Task;
       var results = provider.GetCoverage(testProject, configuration);
       if (results != null) SaveResults(results, testProject, configuration);
       coverageCollectionCompletion.SetResult(true);
     }
 
-    protected DataCollectorSettings GetRunSettings(Project testProject)
+    protected XmlNode GetRunSettings(Project testProject)
     {
       string solutionDirectoryPath = testProject.ParentSolution.BaseDirectory.ToString();
       string[] runSettingsFiles = Directory.GetFiles(solutionDirectoryPath, "*.runsettings");
@@ -78,16 +91,18 @@ namespace CodeCoverage.Core
       return ParseRunSettings(runSettingsFile);
     }
 
-    protected virtual DataCollectorSettings ParseRunSettings(string runSettingsFile)
+    protected virtual XmlNode ParseRunSettings(string runSettingsFile)
     {
       try
       {
         using FileStream settingsFileStream = new FileStream(runSettingsFile, FileMode.Open);
         using StreamReader reader = new StreamReader(settingsFileStream);
         string xml = reader.ReadToEnd();
-        DataCollectionRunSettings runSettings = XmlRunSettingsUtilities.GetDataCollectionRunSettings(xml);
-        return runSettings.DataCollectorSettingsList.FirstOrDefault(
-          s => s.FriendlyName == provider.RunSettingsDataCollectorFriendlyName && s.IsEnabled);
+        XmlDocument document = new XmlDocument();
+        document.Load(runSettingsFile);
+        string providerName = provider.RunSettingsDataCollectorFriendlyName;
+        string settingsXpath = $"/RunSettings/DataCollectionRunSettings/DataCollectors/DataCollector[@friendlyName='{providerName}']";
+        return document.DocumentElement.SelectSingleNode(settingsXpath);
       } catch
       {
         return null;

@@ -9,23 +9,12 @@ namespace CodeCoverage.Core.Presentation
 {
   public interface ICoveragePad
   {
-    TestProject SelectedTestProject { get; set; }
-    void SetTestProjects(IReadOnlyList<TestProject> testProjects);
+    void SetTestProjects(IEnumerable<string> testProjects);
     void DisableUI();
     void EnableUI();
     void SetStatusMessage(string message, LogLevel level);
     void ClearCoverageResults();
     void SetCoverageResults(IReadOnlyDictionary<string, CoverageSummary> results);
-  }
-
-  public class TestProject
-  {
-    public string DisplayName => IdeProject.Name;
-    public Project IdeProject { get; }
-
-    internal TestProject(Project project) {
-      IdeProject = project;
-    }
   }
 
   public class CoveragePadPresenter : IDisposable
@@ -35,6 +24,17 @@ namespace CodeCoverage.Core.Presentation
     readonly ICoverageResultsRepository repository;
     readonly TestProjectService testProjectService;
     readonly LoggedCoverageService coverageService;
+
+    public Project SelectedTestProject
+    {
+      get {
+        if (testProjects == null || selectedTestProjectIndex >= testProjects.Count) return null;
+        return testProjects[selectedTestProjectIndex];
+      }
+    }
+
+    int selectedTestProjectIndex;
+    List<Project> testProjects;
 
     internal CoveragePadPresenter(ICoveragePad pad, ILoggingService log, ICoverageResultsRepository repository, ICoverageProvider provider)
     {
@@ -46,7 +46,10 @@ namespace CodeCoverage.Core.Presentation
       coverageService = new LoggedCoverageService(provider, repository, log);
     }
 
-    public void OnShown() => RefreshTestProjects();
+    public void OnShown()
+    {
+      RefreshTestProjects();
+    }
 
     public void Dispose()
     {
@@ -57,28 +60,27 @@ namespace CodeCoverage.Core.Presentation
 
     void RefreshTestProjects()
     {
-      var testProjects = testProjectService.TestProjects
-        .Select(p => new TestProject(p)).ToList();
+      testProjects = testProjectService.TestProjects.ToList();      
       pad.ClearCoverageResults();
-      pad.SetTestProjects(testProjects);
-      SelectFirstProject();
-      TestProjectSelectionChanged();
-
-      void SelectFirstProject()
-      {
-        var first = testProjects?.FirstOrDefault();
-        if (first == null) return;
-        pad.SelectedTestProject = first;
-      }
+      pad.SetTestProjects(testProjects.Select(p => p.Name));
+      TestProjectSelectionChanged(0);
     }
 
-    public void TestProjectSelectionChanged()
+    public void TestProjectSelectionChanged(int projectIndex)
     {
-      var project = pad.SelectedTestProject;
+      selectedTestProjectIndex = projectIndex;
+      var project = SelectedTestProject;
       var configuration = IdeApp.Workspace.ActiveConfiguration;
+
+      if (project == null)
+      {
+        pad.ClearCoverageResults();
+        return;
+      }
+
       try
       {
-        var results = repository.ResultsFor(project.IdeProject, configuration);
+        var results = repository.ResultsFor(project, configuration);
         if (results == null)
         {
           pad.ClearCoverageResults();
@@ -89,22 +91,22 @@ namespace CodeCoverage.Core.Presentation
       catch (Exception e)
       {
         pad.ClearCoverageResults();
-        log.Error($"Failed to load results for project {project.IdeProject.Name}.");
+        log.Error($"Failed to load results for project {project.Name}.");
         log.Error(e.Message);
       }
     }
 
     public async Task GatherCoverageAsync()
     {
-      if (pad.SelectedTestProject == null) return;
+      Project testProject = SelectedTestProject;
+      if (testProject == null) return;
 
       pad.DisableUI();
       pad.ClearCoverageResults();
 
-      var progress = new Progress<Log>(HandleCoverageServiceUpdate);
-      await coverageService.CollectCoverageForTestProject(pad.SelectedTestProject.IdeProject, progress);
-
-      TestProjectSelectionChanged();
+      Progress<Log> progress = new Progress<Log>(HandleCoverageServiceUpdate);
+      await coverageService.CollectCoverageForTestProject(testProject, progress);
+      TestProjectSelectionChanged(selectedTestProjectIndex);
       pad.EnableUI();
     }
 

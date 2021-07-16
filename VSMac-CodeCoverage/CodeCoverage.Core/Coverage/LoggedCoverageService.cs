@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using System.Xml;
 using MonoDevelop.Projects;
 
 namespace CodeCoverage.Core
@@ -63,7 +63,7 @@ namespace CodeCoverage.Core
       await base.RunTests(testProject);
     }
 
-    protected override DataCollectorSettings ParseRunSettings(string runSettingsFile)
+    protected override XmlNode ParseRunSettings(string runSettingsFile)
     {
       loggingService.Info($"Using run settings file: {runSettingsFile}");
       return base.ParseRunSettings(runSettingsFile);

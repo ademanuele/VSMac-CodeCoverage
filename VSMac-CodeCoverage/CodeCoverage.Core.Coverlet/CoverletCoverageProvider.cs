@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Xml;
 using System.Xml.Serialization;
 using CodeCoverage.Core;
 using Coverlet.Core;
 using Coverlet.Core.Abstractions;
 using Coverlet.Core.Helpers;
 using Coverlet.Core.Symbols;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using MonoDevelop.Projects;
 using CoverletCoverage = Coverlet.Core.Coverage;
 
@@ -42,13 +42,13 @@ namespace CodeCoverage.Coverlet
       projectCoverageMap = new Dictionary<Tuple<Project, ConfigurationSelector>, CoverletCoverage>();
     }
 
-    public void Prepare(Project testProject, ConfigurationSelector configuration, DataCollectorSettings coverageSettings)
+    public void Prepare(CoverageSettings settings)
     {
-      var unitTestDll = testProject.GetOutputFileName(configuration).ToString();
+      var unitTestDll = settings.TestProject.GetOutputFileName(settings.Configuration).ToString();
       var sourceRootTranslator = new SourceRootTranslator(logger, fileSystem);
       var cecilSymbolHelper = new CecilSymbolHelper();
       var instrumentationHelper = new InstrumentationHelper(new ProcessExitHandler(), new RetryHelper(), fileSystem, logger, sourceRootTranslator);
-      var coverageParameters = GetCoverageParameters(coverageSettings);
+      var coverageParameters = GetCoverageParameters(settings.CollectionSettings);
 
       var coverage = new CoverletCoverage(unitTestDll,
           coverageParameters,
@@ -58,20 +58,20 @@ namespace CodeCoverage.Coverlet
           sourceRootTranslator,
           cecilSymbolHelper);
       coverage.PrepareModules();
-      projectCoverageMap[new Tuple<Project, ConfigurationSelector>(testProject, configuration)] = coverage;
+      projectCoverageMap[new Tuple<Project, ConfigurationSelector>(settings.TestProject, settings.Configuration)] = coverage;
     }
 
-    CoverageParameters GetCoverageParameters(DataCollectorSettings coverageSettings)
+    CoverageParameters GetCoverageParameters(XmlNode coverageSettings)
     {
       if (coverageSettings is null) return defaultCoverageParameters;
       return ParseSettings(coverageSettings);
     }
 
-    CoverageParameters ParseSettings(DataCollectorSettings coverageSettings)
+    CoverageParameters ParseSettings(XmlNode coverageSettings)
     {
       try
-      {
-        string configurationXml = coverageSettings.Configuration.OuterXml;
+      {        
+        string configurationXml = coverageSettings.InnerXml;
         XmlSerializer serializer = new XmlSerializer(typeof(CoverletRunSettingsConfiguration));
         using StringReader reader = new StringReader(configurationXml);
         CoverletRunSettingsConfiguration settings = (CoverletRunSettingsConfiguration)serializer.Deserialize(reader);

@@ -73,34 +73,18 @@ namespace CodeCoverage.Pad.Native
     public event Action CoverageResultsCleared;
 
     private IReadOnlyDictionary<string, CoverageSummary> currentResults;
-    private IReadOnlyList<TestProject> testProjects;
     private int presentedResultIndex;
 
     #region Test Project Dropdown
-    public TestProject SelectedTestProject { get
-      {
-        if (testProjects == null) return null;
-        return testProjects[(int)TestProjectDropdown.IndexOfSelectedItem];
-      }
-      set
-      {
-        if (testProjects == null) return;
-        int index = testProjects.ToList().IndexOf(value);
-        TestProjectDropdown.SelectItem(index);
-        SelectedTestProjectChanged?.Invoke();
-      }
-    }
-
-    public void SetTestProjects(IReadOnlyList<TestProject> testProjects)
-    {
-      this.testProjects = testProjects;
+    public void SetTestProjects(IEnumerable<string> testProjects)
+    {      
       TestProjectDropdown.RemoveAllItems();
-      TestProjectDropdown.AddItems(testProjects.Select(p => p.DisplayName).ToArray());
+      TestProjectDropdown.AddItems(testProjects.ToArray());
     }
 
     partial void TestProjectDropdownChanged(NSPopUpButton sender)
     {
-      presenter.TestProjectSelectionChanged();
+      presenter.TestProjectSelectionChanged((int)TestProjectDropdown.IndexOfSelectedItem);
       SelectedTestProjectChanged?.Invoke();
     }
     #endregion

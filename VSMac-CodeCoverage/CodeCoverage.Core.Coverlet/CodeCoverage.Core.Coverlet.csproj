@@ -16,7 +16,4 @@
     <ProjectReference Include="..\CodeCoverage.Core\CodeCoverage.Core.csproj" />
     <ProjectReference Include="..\..\coverlet\src\coverlet.core\coverlet.core.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <AddinReference Include="MonoDevelop.UnitTesting" />
-  </ItemGroup>
 </Project>

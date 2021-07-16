@@ -66,7 +66,7 @@ namespace CodeCoverage
     bool TryGetCoverageFor(ITextView textView, out Dictionary<int, int> coverage)
     {
       var filePath = GetFilePathFor(textView);
-      var project = CoveragePad?.SelectedTestProject;
+      var project = CoverageExtension.Presenter(CoveragePad).SelectedTestProject;
 
       if (project == null || filePath == null)
       {
@@ -75,7 +75,7 @@ namespace CodeCoverage
       }
 
       var configuration = IdeApp.Workspace.ActiveConfiguration;
-      var results = CoverageExtension.Repository?.ResultsFor(project.IdeProject, configuration);
+      var results = CoverageExtension.Repository?.ResultsFor(project, configuration);
       if (results == null)
       {
         coverage = null;

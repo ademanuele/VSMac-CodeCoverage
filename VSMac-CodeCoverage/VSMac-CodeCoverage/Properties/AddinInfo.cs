@@ -4,7 +4,7 @@ using Mono.Addins.Description;
 [assembly: Addin(
     "Code Coverage",
     Namespace = "CodeCoverage",
-    Version = "2.0.0"
+    Version = "2.0.1"
 )]
 
 [assembly: AddinName("CodeCoverage")]

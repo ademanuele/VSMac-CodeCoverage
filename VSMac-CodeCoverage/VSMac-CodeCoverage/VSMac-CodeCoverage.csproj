@@ -135,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.TextEditor.Cocoa" />
-    <AddinReference Include="MonoDevelop.UnitTesting.NUnit" />
     <AddinReference Include="MonoDevelop.UnitTesting" />
   </ItemGroup>
   <ItemGroup>

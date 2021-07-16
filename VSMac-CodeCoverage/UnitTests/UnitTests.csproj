@@ -55,6 +55,10 @@
       <Project>{F20ACA3C-8F7E-47BF-8A81-8F282F279D2B}</Project>
       <Name>CodeCoverage.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeCoverage.Core.Coverlet\CodeCoverage.Core.Coverlet.csproj">
+      <Project>{426AD28D-8E72-4BA9-8C91-18492CFB7370}</Project>
+      <Name>CodeCoverage.Core.Coverlet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
