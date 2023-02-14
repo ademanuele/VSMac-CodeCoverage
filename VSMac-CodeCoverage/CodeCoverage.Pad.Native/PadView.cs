@@ -61,9 +61,12 @@ namespace CodeCoverage.Pad.Native
 
     protected override void Dispose(bool disposing)
     {
+      if (!disposing)
+      {
+        presenter.Dispose();
+      }
+
       base.Dispose(disposing);
-      if (!disposing) return;
-      presenter.Dispose();
     }
     #endregion
 
